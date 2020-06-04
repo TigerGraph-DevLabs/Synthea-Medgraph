@@ -1,13 +1,13 @@
-site_name: My Docs
+site_name: MedGraph
 nav: 
   - Home: index.md
-  - Projects:
+  - Project:
     - Architecture: arc.md
   - Data:
-    - Census: census.md
-    - SNOMED: snomed.md
-    - FAERS: faers.md
-  - Graph: graph.md
+    - Census: data/census.md
+    - SNOMED: data/snomed.md
+    - FAERS: data/faers.md
+  - Graphs: graph.md
   - 'Data Visualisation': visual.md
 theme: 
   name: material
