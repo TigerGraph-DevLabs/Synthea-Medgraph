@@ -1,0 +1,26 @@
+drop job loadPatient
+
+create loading job loadPatient for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Patient values ($"Id", $"LAST", $"FIRST", $"MAIDEN", $"BIRTHDATE", $"SSN", $"DRIVERS",
+                                      $"PASSPORT", $"HEALTHCARE_EXPENSES", $"HEALTHCARE_COVERAGE", $"ADDRESS",
+                                      $"LAT", $"LON", $"SUFFIX", $"PREFIX", $"MARITAL", $"BIRTHPLACE")
+                                      USING header="true";
+    LOAD f1 TO vertex Gender values ($"GENDER") USING header="true";
+    LOAD f1 TO vertex Race values ($"RACE") USING header="true";
+    LOAD f1 TO vertex Ethnicity values ($"ETHNICITY") USING header="true";
+    LOAD f1 TO vertex City values ($"CITY") USING header="true";
+    LOAD f1 TO vertex State values ($"STATE") USING header="true";
+    LOAD f1 TO vertex County values ($"COUNTY") USING header="true";
+    LOAD f1 TO vertex ZipCode values ($"ZIP") USING header="true";
+
+    load f1 to edge PATIENT_GENDER values ($"Id", $"GENDER") USING header="true";
+    load f1 to edge PATIENT_RACE values ($"Id", $"RACE") USING header="true";
+    load f1 to edge PATIENT_ETHNICITY values ($"Id", $"ETHNICITY") USING header="true";
+    load f1 to edge PATIENT_FROM_CITY values ($"Id", $"CITY") USING header="true";
+    load f1 to edge PATIENT_FROM_STATE values ($"Id", $"STATE") USING header="true";
+    load f1 to edge PATIENT_FROM_COUNTY values ($"Id", $"COUNTY") USING header="true";
+    load f1 to edge PATIENT_HAS_ZIPCODE values ($"Id", $"ZIP") USING header="true";
+    }

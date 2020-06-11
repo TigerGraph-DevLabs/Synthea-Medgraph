@@ -1,0 +1,12 @@
+drop job loadImaging
+
+create loading job loadImaging for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex ImagingStudies values ($"Id", $"BODYSITE_CODE", $"BODYSITE_DESCRIPTION", $"MODALITY_CODE", $"MODALITY_DESCRIPTION", $"SOP_CODE", $"SOP_DESCRIPTION") using header="true";
+    load f1 to edge PATIENT_HAS_IMAGING values ($"Id", $"PATIENT", $"DATE") using header="true";
+    load f1 to edge ENCOUNTER_FOR_IMAGING values ($"Id", $"ENCOUNTER") using header="true";
+    load f1 to edge IMAGING_CODE values ($"Id", $"BODYSITE_CODE") using header="true";
+    load f1 to vertex SnomedCode values ($"BODYSITE_CODE", $"BODYSITE_DESCRIPTION") using header="true";
+}

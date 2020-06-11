@@ -1,0 +1,13 @@
+drop job loadProviders
+
+create loading job loadProviders for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Providers values ($"Id", $"NAME", $"ADDRESS", $"LAT", $"LON", $"UTILIZATION", $"SPECIALITY") using header="true";
+    load f1 to edge PROVIDER_GENDER values ($"Id", $"GENDER") using header="true";
+    load f1 to edge PROVIDER_FROM_CITY values ($"Id", $"CITY") using header="true";
+    load f1 to edge PROVIDER_FROM_STATE values ($"Id", $"STATE") using header="true";
+    load f1 to edge PROVIDER_HAS_ZIPCODE values ($"Id", $"ZIP") using header="true";
+    load f1 to edge PROVIDER_HAS_ORGANIZATION values ($"Id", $"ORGANIZATION") using header="true";
+    }

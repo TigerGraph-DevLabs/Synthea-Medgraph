@@ -98,93 +98,93 @@ tasks {
     }
 
     register<GsqlTask>("createLoadAllergies") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadAllergies.gsql"
         group = loadingGroup
         description = "Creates loading job for loading allergies"
     }
 
     register<GsqlTask>("createLoadCareplans") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadCareplans.gsql"
         group = loadingGroup
         description = "Creates loading job for loading careplans"
     }
 
     register<GsqlTask>("createLoadConditions") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadConditions.gsql"
         group = loadingGroup
         description = "Creates loading job for loading conditions"
     }
 
     register<GsqlTask>("createLoadDevices") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadDevices.gsql"
         group = loadingGroup
         description = "Creates loading job for loading devices"
     }
 
     register<GsqlTask>("createLoadEncounters") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadEncounters.gsql"
         group = loadingGroup
         description = "Creates loading job for loading encounters"
     }
 
     register<GsqlTask>("createLoadImaging") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadImaging.gsql"
         group = loadingGroup
         description = "Creates loading job for loading imaging studies"
     }
 
     register<GsqlTask>("createLoadImmunizations") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadImmunizations.gsql"
         group = loadingGroup
         description = "Creates loading job for loading immunizations"
     }
 
     register<GsqlTask>("createLoadMedications") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadMedications.gsql"
         group = loadingGroup
         description = "Creates loading job for loading medications"
     }
 
     register<GsqlTask>("createLoadObservations") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadObservations.gsql"
         group = loadingGroup
         description = "Creates loading job for loading observations"
     }
 
     register<GsqlTask>("createLoadOrganizations") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadOrganizations.gsql"
         group = loadingGroup
         description = "Creates loading job for loading organizations"
     }
 
     register<GsqlTask>("createLoadPatients") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadPatient.gsql"
         group = loadingGroup
         description = "Creates loading job for loading patients"
     }
 
-    register<GsqlTask>("createLoadPayerTransitions") {
-        scriptPath = "load/.gsql"
-        group = loadingGroup
-        description = "Creates loading job for loading payer transitions"
-    }
-
     register<GsqlTask>("createLoadPayers") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadPayers.gsql"
         group = loadingGroup
         description = "Creates loading job for loading payers"
     }
 
     register<GsqlTask>("createLoadProcedures") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadProcedures.gsql"
         group = loadingGroup
         description = "Creates loading job for loading procedures"
     }
 
     register<GsqlTask>("createLoadProviders") {
-        scriptPath = "load/.gsql"
+        scriptPath = "load/loadProviders.gsql"
         group = loadingGroup
         description = "Creates loading job for loading providers"
+    }
+
+    register<GsqlTask>("createLoadPayerTransitions") {
+        scriptPath = "load/loadPayerTransitions.gsql"
+        group = loadingGroup
+        description = "Creates loading job for loading payer transitions"
     }
 
     /* register<GsqlTask>("createLoadSymptoms") {

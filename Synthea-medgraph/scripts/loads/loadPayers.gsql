@@ -1,0 +1,11 @@
+drop job loadPayers
+
+create loading job loadPayers for graph synthea {
+
+    define filename f1;
+
+    load f1 to Vertex Payer values ($"Id", $"NAME", $"PHONE", $"ADDRESS", $"AMOUNT_COVERED", $"AMOUNT_UNCOVERED", $"REVENUE", $"COVERED_ENCOUNTERS", $"UNCOVERED_ENCOUNTERS", $"COVERED_MEDICATIONS", $"UNCOVERED_MEDICATIONS", $"COVERED_PROCEDURES", $"UNCOVERED_PROCEDURES", $"COVERED_IMMUNIZATIONS", $"UNCOVERED_IMMUNIZATIONS", $"UNIQUE_CUSTOMERS", $"QOLS_AVG", $"MEMBER_MONTHS") using header = "true";
+    load f1 to edge PAYER_STATE_HQ values ($"Id", $"STATE_HEADQUARTERED") using header = "true";
+    load f1 to edge PAYER_FROM_CITY values ($"Id", $"CITY") using header = "true";
+    load f1 to Vertex PAYER_HAS_ZIPCODE values ($"Id", $"ZIP") using header = "true";
+}

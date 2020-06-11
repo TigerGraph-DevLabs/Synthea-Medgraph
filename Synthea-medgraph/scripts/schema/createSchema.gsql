@@ -1,118 +1,118 @@
 SET exit_on_error = FALSE
 
-CREATE VERTEX Gender(PRIMARY_ID STRING)
-CREATE VERTEX Race(PRIMARY_ID STRING)
-CREATE VERTEX Ethnicity(PRIMARY_ID STRING)
-CREATE VERTEX City(PRIMARY_ID STRING)
-CREATE VERTEX State(PRIMARY_ID STRING)
-CREATE VERTEX County(PRIMARY_ID STRING)
-CREATE VERTEX ZipCode(PRIMARY_ID STRING)
+CREATE VERTEX Gender(PRIMARY_ID gender_id STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Race(PRIMARY_ID race_id STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Ethnicity(PRIMARY_ID ethnicity_id STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Address(PRIMARY_ID address_id) WITH primary_id_as_attribute="true"
+CREATE VERTEX City(PRIMARY_ID city_id STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX State(PRIMARY_ID state_id STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX County(PRIMARY_ID county_id STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX ZipCode(PRIMARY_ID zip_id STRING) WITH primary_id_as_attribute="true"
 # CREATE VERTEX Utilization(PRIMARY_ID INT)
 # CREATE VERTEX AgeBegin(PRIMARY_ID INT)
 # CREATE VERTEX AgeEnd(PRIMARY_ID INT)
 # CREATE VERTEX Pathology(PRIMARY_ID STRING)
-CREATE VERTEX Birthplace(PRIMARY_ID STRING)
-CREATE VERTEX SnomedCode(PRIMARY_ID INT, description STRING)
+CREATE VERTEX SnomedCode(PRIMARY_ID snomed_code INT, description STRING) WITH primary_id_as_attribute="true"
 
-CREATE VERTEX Patient(PRIMARY_ID STRING, lastName STRING, firstName STRING, maiden STRING,
+CREATE UNDIRECTED EDGE ADDRESS_CITY(From Address, To City)
+CREATE UNDIRECTED EDGE ADDRESS_STATE(From Address, To State)
+CREATE UNDIRECTED EDGE ADDRESS_COUNTY(From Address, To County)
+CREATE UNDIRECTED EDGE ADDRESS_ZIPCODE(From Address, To ZipCode)
+
+CREATE VERTEX Patient(PRIMARY_ID patient_id STRING, lastName STRING, firstName STRING, maiden STRING,
                       Birthday DATETIME, SSN STRING, License STRING, Passport STRING,
-                      HealthcareExpense DOUBLE, HealthcareCoverage DOUBLE, address STRING, latitude DOUBLE, longitude DOUBLE,
-                      suffix STRING, prefix STRING, MaritalStatus STRING)
+                      HealthcareExpense DOUBLE, HealthcareCoverage DOUBLE, suffix STRING, prefix STRING, MaritalStatus STRING, birthplace STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_GENDER(FROM Patient, TO Gender)
+CREATE UNDIRECTED EDGE PATIENT_ADDRESS(FROM Patient, To Address)
 CREATE UNDIRECTED EDGE PATIENT_RACE(FROM Patient, TO Race)
 CREATE UNDIRECTED EDGE PATIENT_ETHNICITY(FROM Patient, TO Ethnicity)
-CREATE UNDIRECTED EDGE PATIENT_FROM_CITY(FROM Patient, TO City)
-CREATE UNDIRECTED EDGE PATIENT_FROM_STATE(FROM Patient, TO State)
-CREATE UNDIRECTED EDGE PATIENT_FROM_COUNTY(FROM Patient, TO County)
-CREATE UNDIRECTED EDGE PATIENT_HAS_ZIPCODE(FROM Patient, TO ZipCode)
-CREATE UNDIRECTED EDGE PATIENT_BIRTHPLACE(FROM Patient, TO Birthplace)
 
-CREATE VERTEX Allergies(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Allergies(PRIMARY_ID allergy_code INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_ALLERGY(FROM Allergies, to Patient, startDate DATETIME, endDate DATETIME)
 Create UNDIRECTED EDGE ENCOUNTER_FOR_ALLERGY(FROM Allergies, TO Encounter)
 CREATE UNDIRECTED EDGE ALLERGY_CODE(FROM Allergies, TO SnomedCode)
 
-CREATE VERTEX Device(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Device(PRIMARY_ID UDI_code INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_DEVICE(FROM Device, TO Patient, startDate DATETIME, endDate DATETIME)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_DEVICE(FROM Device, TO Encounter)
 CREATE UNDIRECTED EDGE DEVICE_CODE(FROM Device, TO SnomedCode)
 
-CREATE VERTEX Medication(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Medication(PRIMARY_ID medication_code INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_MEDICATION(FROM Medication, TO Patient, start_date DATETIME, endDate DATETIME,
                                               baseCost DOUBLE, payerCoverage DOUBLE, dispenses INT, totalCost DOUBLE)
 CREATE UNDIRECTED EDGE MEDICATION_PAYER(FROM Medication, TO Payer)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_MEDICATION(FROM Medication, TO Encounter)
 CREATE UNDIRECTED EDGE MEDICATION_REASON_CODE(FROM Medication, TO SnomedCode)
+CREATE UNDIRECTED EDGE MEDICATION_CODE(FROM Medication, To SnomedCode)
 
-CREATE VERTEX Procedures(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Procedures(PRIMARY_ID procedure_code INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PROCEDURE_CODE(FROM Procedures, To SnomedCode)
 CREATE UNDIRECTED EDGE PROCEDURE_REASON_CODE(FROM Procedures, To SnomedCode)
 CREATE UNDIRECTED EDGE PATIENT_HAS_PROCEDURE(FROM Procedures, To Patient, baseCost INT, dateOfProcedure DaTETIME)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_PROCEDURE(FROM Procedures, To Encounter)
 
-CREATE VERTEX Careplans(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Careplans(PRIMARY_ID careplan_id INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_CAREPLAN(FROM Careplans, TO Patient, startDate DATETIME, endDate DATETIME)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_CAREPLAN(FROM Careplans, TO Encounter)
 CREATE UNDIRECTED EDGE CAREPLAN_CODE(FROM Careplans, TO SnomedCode)
 CREATE UNDIRECTED EDGE CAREPLAN_REASON_CODE(FROM Careplans, TO SnomedCode)
 
-CREATE VERTEX Conditions(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Conditions(PRIMARY_ID condition_code INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_CONDITION(FROM Conditions, TO Patient, startDate DATETIME, endDate DATETIME)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_CONDITION(FROM Conditions, TO Encounter)
 CREATE UNDIRECTED EDGE CONDITION_CODE(FROM Conditions, TO SnomedCode)
 
-CREATE VERTEX Immunizations(PRIMARY_ID INT, description STRING)
+CREATE VERTEX Immunizations(PRIMARY_ID immunization_code INT, description STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_IMMUNIZATION(FROM Immunizations, TO Patient, dateOfImmunization DATETIME, cost DOUBLE)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_IMMUNIZATION(FROM Immunizations, TO Encounter)
 CREATE UNDIRECTED EDGE IMMUNIZATION_CODE(FROM Immunizations, TO SnomedCode)
 
-CREATE VERTEX Observations(PRIMARY_ID INT, description STRING)
-CREATE UNDIRECTED EDGE OBSERVATION_FOR_PATIENT(FROM Observations, TO Patient, dateOfObservation DATETIME, obsValue STRING, units STRING)
+CREATE VERTEX Observations(PRIMARY_ID observation_id INT, description STRING, obsValue STRING, units STRING) WITH primary_id_as_attribute="true"
+CREATE UNDIRECTED EDGE OBSERVATION_FOR_PATIENT(FROM Observations, TO Patient, dateOfObservation DATETIME)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_OBSERVATION(FROM Observations, TO Encounter)
+create UNDIRECTED edge OBSERVATION_CODE(From Observations, To SnomedCode)
 
-CREATE VERTEX Organizations(PRIMARY_ID STRING, name STRING, revenue DOUBLE, utilization INT, phone STRING, address STRING,
-                            latitude DOUBLE, longitude DOUBLE)
-CREATE UNDIRECTED EDGE ORGANIZATION_IN_CITY(FROM Organizations, TO City)
-CREATE UNDIRECTED EDGE ORGANIZATION_IN_STATE(FROM Organizations, TO State)
-CREATE UNDIRECTED EDGE ORGANIZATION_HAS_ZIPCODE(FROM Organizations, TO ZipCode)
+CREATE VERTEX Organizations(PRIMARY_ID organization_id STRING, name STRING, revenue DOUBLE, utilization INT, phone STRING) WITH primary_id_as_attribute="true"
+CREATE UNDIRECTED EDGE ORGANIZATION_ADDRESS(From Organizations, To Address)
 
-CREATE VERTEX Providers(PRIMARY_ID STRING, name STRING, address STRING, latitude DOUBLE, longitude DOUBLE, utilization INT)
-CREATE VERTEX Speciality(PRIMARY_ID STRING)
+CREATE VERTEX Providers(PRIMARY_ID provider_id STRING, name STRING, utilization INT, speciality STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PROVIDER_HAS_ORGANIZATION(FROM Providers, TO Organizations)
 CREATE UNDIRECTED EDGE PROVIDER_GENDER(FROM Providers, TO Gender)
-CREATE UNDIRECTED EDGE PROVIDER_FROM_CITY(FROM Providers, TO City)
-CREATE UNDIRECTED EDGE PROVIDER_FROM_STATE(FROM Providers, TO State)
-CREATE UNDIRECTED EDGE PROVIDER_HAS_ZIPCODE(FROM Providers, TO ZipCode)
-CREATE UNDIRECTED EDGE PROVIDER_SPECIALITY(FROM Providers, TO Speciality)
+CREATE UNDIRECTED EDGE PROVIDER_ADDRESS(From Providers, To Address)
 
-CREATE VERTEX ImagingStudies(PRIMARY_ID STRING, bodySiteCode STRING, bodySiteDescription STRING, modalityCode STRING,
-                            modalityDescription STRING, SOPCode STRING, SOPDescription STRING)
+CREATE VERTEX ImagingStudies(PRIMARY_ID imaging_id STRING, bodySiteCode STRING, bodySiteDescription STRING, modalityCode STRING,
+                            modalityDescription STRING, SOPCode STRING, SOPDescription STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_HAS_IMAGING(FROM ImagingStudies, TO Patient, dateOfImage DATETIME)
 CREATE UNDIRECTED EDGE ENCOUNTER_FOR_IMAGING(FROM ImagingStudies, TO Encounter)
+CREATE UNDIRECTED EDGE IMAGING_CODE(FROM ImagingStudies, TO SnomedCode)
 
 
-CREATE VERTEX Payer(PRIMARY_ID STRING, name STRING, phone STRING, address STRING, amountCovered DOUBLE, amountUncovered DOUBLE, revenue DOUBLE,
+CREATE VERTEX Payer(PRIMARY_ID payer_id STRING, name STRING, phone STRING, amountCovered DOUBLE, amountUncovered DOUBLE, revenue DOUBLE,
                     coveredEncounters INT, uncoveredEncounters INT, coveredMedications INT, uncoveredMedications INT,
                     coveredProcedures INT, uncoveredProcedures INT, coveredImmunizations INT, uncoveredImmunizations INT,
-                    uniqueCustomers INT, QOLS_Avg DOUBLE, memberMonths INT)
-CREATE UNDIRECTED EDGE PAYER_TRANSITION(FROM Patient, TO Payer, startDate DATETIME, endDate DATETIME, ownership STRING)
-CREATE UNDIRECTED EDGE PAYER_FROM_CITY(FROM Payer, to City)
-CREATE UNDIRECTED EDGE PAYER_STATE_HQ(FROM Payer, to State)
-CREATE UNDIRECTED EDGE PAYER_HAS_ZIPCODE(FROM Payer, to ZipCode)
+                    uniqueCustomers INT, QOLS_Avg DOUBLE, memberMonths INT) WITH primary_id_as_attribute="true"
+CREATE UNDIRECTED EDGE PAYER_TRANSITION(FROM Payer, TO Patient, startYear DATETIME, endYear DATETIME, ownership STRING)
+CREATE UNDIRECTED EDGE PAYER_ADDRESS(From Payer, To Address)
 
-CREATE VERTEX Encounter(PRIMARY_ID STRING, baseEncounterCost DOUBLE, totalClaimCost DOUBLE, payerCoverage DOUBLE)
-CREATE VERTEX EncounterClass(PRIMARY_ID STRING)
-CREATE UNDIRECTED EDGE ENCOUNTER_START(FROM Encounter, TO StartDate)
-CREATE UNDIRECTED EDGE ENCOUNTER_END(FROM Encounter, TO EndDate)
-CREATE UNDIRECTED EDGE ENCOUNTER_FOR_PATIENT(FROM Encounter, TO Patient)
+CREATE VERTEX Encounter(PRIMARY_ID encounter_id STRING, baseEncounterCost DOUBLE, totalClaimCost DOUBLE, payerCoverage DOUBLE, classType STRING) WITH primary_id_as_attribute="true"
+CREATE UNDIRECTED EDGE ENCOUNTER_FOR_PATIENT(FROM Encounter, TO Patient, startTime DATETIME, endTime DATETIMe)
 CREATE UNDIRECTED EDGE ENCOUNTER_UNDER_ORGANIZATION(FROM Encounter, TO Organizations)
 CREATE UNDIRECTED EDGE ENCOUNTER_HAS_PROVIDER(FROM Encounter, TO Providers)
 CREATE UNDIRECTED EDGE ENCOUNTER_HAS_PAYER(FROM Encounter, TO Payer)
 CREATE UNDIRECTED EDGE ENCOUNTER_CODE(FROM Encounter, TO SnomedCode)
 CREATE UNDIRECTED EDGE ENCOUNTER_REASON_CODE(FROM Encounter, TO SnomedCode)
-CREATE UNDIRECTED EDGE ENCOUNTER_CLASS(FROM Encounter, TO EncounterClass)
 
-CREATE GRAPH @synthea@()
+CREATE GRAPH MedGraph(Gender, Race, Ethnicity, City, State, County, ZipCode, SnomedCode, Patient, PATIENT_GENDER, PATIENT_ETHNICITY, PATIENT_FROM_CITY,
+                        PATIENT_FROM_STATE, PATIENT_FROM_COUNTY, PATIENT_HAS_ZIPCODE, PATIENT_RACE, Allergies, PATIENT_HAS_ALLERGY, ENCOUNTER_FOR_ALLERGY,
+                        ALLERGY_CODE, Device, PATIENT_HAS_DEVICE, ENCOUNTER_FOR_DEVICE, DEVICE_CODE, Medication, MEDICATION_PAYER, MEDICATION_REASON_CODE,
+                        PATIENT_HAS_MEDICATION, ENCOUNTER_FOR_MEDICATION, MEDICATION_CODE, Procedures, PROCEDURE_CODE, PROCEDURE_REASON_CODE, PATIENT_HAS_PROCEDURE,
+                        ENCOUNTER_FOR_PROCEDURE, Careplans, CAREPLAN_CODE, CAREPLAN_REASON_CODE, PATIENT_HAS_CAREPLAN, ENCOUNTER_FOR_CAREPLAN, Conditions,
+                        CONDITION_CODE, PATIENT_HAS_CONDITION, ENCOUNTER_FOR_CONDITION, Immunizations, IMMUNIZATION_CODE, PATIENT_HAS_IMMUNIZATION,
+                        ENCOUNTER_FOR_IMMUNIZATION, Observations, OBSERVATION_FOR_PATIENT, ENCOUNTER_FOR_OBSERVATION, OBSERVATION_CODE, Organizations, ORGANIZATION_IN_CITY,
+                        ORGANIZATION_IN_STATE, ORGANIZATION_HAS_ZIPCODE, Providers, PROVIDER_HAS_ORGANIZATION, PROVIDER_GENDER, PROVIDER_FROM_CITY, PROVIDER_FROM_STATE,
+                        PROVIDER_HAS_ZIPCODE, ImagingStudies, PATIENT_HAS_IMAGING, ENCOUNTER_FOR_IMAGING, IMAGING_CODE, Payer, PAYER_TRANSITION,
+                        PAYER_FROM_CITY, PAYER_STATE_HQ, PAYER_HAS_ZIPCODE, Encounter, ENCOUNTER_HAS_PAYER, ENCOUNTER_CODE,
+                        ENCOUNTER_REASON_CODE, ENCOUNTER_HAS_PROVIDER, ENCOUNTER_UNDER_ORGANIZATION, ENCOUNTER_FOR_PATIENT)
 
 
 # CREATE VERTEX Notes(PRIMARY_ID DATETIME, Patient STRING, Complaint STRING, History STRING,

@@ -1,0 +1,12 @@
+drop job loadObservations
+
+create loading job loadObservations for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Observations values($"CODE", $"DESCRIPTION", $"VALUE", $"UNITS") using header="true";
+    load f1 to vertex SnomedCode values($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to edge OBSERVATION_FOR_PATIENT values($"CODE", $"PATIENT", $"DATE") using header="true";
+    load f1 to edge ENCOUNTER_FOR_OBSERVATION values($"CODE", $"ENCOUNTER") using header="true";
+    load f1 to edge OBSERVATION_CODE values($"CODE", $"CODE") using header="true";
+}

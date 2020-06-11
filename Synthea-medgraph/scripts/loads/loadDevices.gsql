@@ -1,0 +1,13 @@
+drop job loadDevices
+
+create loading job loadDevices for graph synthea {
+
+    define filename f1;
+
+    load f1 to Vertex Device values ($"UDI", $"DESCRIPTION") using header="true";
+    load f1 to Vertex SnomedCode values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to EDGE PATIENT_HAS_DEVICE values ($"UDI", $"PATIENT", $"START", $"STOP") using header="true";
+    load f1 to Vertex DEVICE_CODE values ($"UDI", $"CODE") using header="true";
+    load f1 to Vertex ENCOUNTER_FOR_DEVICE values ($"UDI", $"ENCOUNTER") using header="true";
+
+}

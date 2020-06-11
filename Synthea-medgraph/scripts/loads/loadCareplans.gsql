@@ -1,0 +1,14 @@
+drop job loadCareplans
+
+create loading job loadCareplans for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Careplans values ($"Id", $"DESCRIPTION") using header="true";
+    load f1 to edge PATIENT_HAS_CAREPLAN values ($"Id", $"PATIENT", $"START", $"STOP") using header="true";
+    load f1 to edge ENCOUNTER_FOR_CAREPLAN values ($"Id", $"ENCOUNTER") using header="true";
+    load f1 to vertex SnomedCode values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to vertex SnomedCode values ($"REASONCODE", $"REASONDESCRIPTION") using header="true";
+    load f1 to edge CAREPLAN_CODE values ($"Id", $"CODE") using header="true";
+    load f1 to edge CAREPLAN_REASON_CODE values ($"Id", $"REASONCODE") using header="true";
+    }

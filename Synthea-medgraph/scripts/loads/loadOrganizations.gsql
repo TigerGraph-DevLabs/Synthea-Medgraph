@@ -1,0 +1,11 @@
+drop job loadOrganizations
+
+create loading job loadOrganizations for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Organizations values ($"Id", $"NAME", $"REVENUE", $"UTILIZATION", $"PHONE", $"ADDRESS", $"LAT", $"LON") using header="true";
+    load f1 to edge ORGANIZATION_IN_CITY values ($"Id", $"CITY") using header="true";
+    load f1 to EDGE ORGANIZATION_IN_STATE values ($"Id", $"STATE") using header="true";
+    load f1 to EDGE ORGANIZATION_HAS_ZIPCODE values ($"Id", $"ZIP") using header="true";
+}

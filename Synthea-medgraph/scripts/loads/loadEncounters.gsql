@@ -1,0 +1,16 @@
+drop job loadEncounters
+
+create loading job loadEncounters for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Encounter values ($"Id", $"BASE_ENCOUNTER_COST", $"TOTAL_CLAIM_COST", $"PAYER_COVERAGE", $"ENCOUNTERCLASS") using header="true";
+    load f1 to edge ENCOUNTER_FOR_PATIENT values ($"Id", $"PATIENT", $"START", $"STOP") using header="true";
+    load f1 to edge ENCOUNTER_UNDER_ORGANIZATION values ($"Id", $"ORGANIZATION") using header="true";
+    Load f1 to edge ENCOUNTER_HAS_PAYER values ($"Id", $"PAYER") using header="true";
+    load f1 to edge ENCOUNTER_HAS_PROVIDER values ($"Id", $"PROVIDER") using header="true";
+    load f1 to edge ENCOUNTER_CODE values ($"Id", $"CODE") using header="true";
+    load f1 to edge ENCOUNTER_REASON_CODE values ($"Id", $"REASONCODE") using header="true";
+    load f1 to Vertex SnomedCode Values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to Vertex SnomedCode values ($"REASONCODE", $"REASONDESCRIPTION") using header="true";
+}

@@ -1,0 +1,13 @@
+drop job loadImmunizations
+
+create loading job loadImmunizations for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Immunizations values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to vertex SnomedCode values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to edge IMMUNIZATION_CODE ($"CODE", $"CODE") using header="true";
+    load f1 to edge PATIENT_HAS_IMMUNIZATION values ($"CODE", $"PATIENT", $"DATE", $"BASE_COST") using header="true";
+    load f1 to edge ENCOUNTER_FOR_IMMUNIZATION values ($"CODE", $"ENCOUNTER") using header="true";
+
+}

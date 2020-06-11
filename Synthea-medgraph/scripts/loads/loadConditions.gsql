@@ -1,0 +1,12 @@
+drop job loadConditions
+
+Create loading job loadConditions for graph synthea {
+
+    define filename f1;
+
+    load f1 to vertex Conditions values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to vertex SnomedCode values ($"CODE", $"DESCRIPTION") using header="true";
+    load f1 to edge CONDITION_CODE values ($"CODE", $"CODE") using header="true";
+    load f1 to edge PATIENT_HAS_CONDITION values ($"CODE", $"PATIENT", $"START", $"STOP") using header="true";
+    load f1 to vertex ENCOUNTER_FOR_CONDITION values ($"CODE", $"ENCOUNTER") using header="true";
+}
