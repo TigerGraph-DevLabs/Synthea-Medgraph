@@ -1,15 +1,15 @@
 drop job loadMedications
 
-create loading job loadMedications for graph synthea {
+create loading job loadMedications for graph MedGraph {
 
     define filename f1;
 
-    load f1 to vertex Medication values ($"CODE", $"DESCRIPTION") USING HEADER="true";
-    load f1 to vertex SnomedCode values ($"CODE", $"DESCRIPTION") USING HEADER="true";
-    load f1 to vertex SnomedCode values ($"REASONCODE", $"REASONDESCRIPTION") USING HEADER="true";
-    load f1 to edge MEDICATION_PAYER values ($"CODE", $"PAYER") USING HEADER="true";
-    load f1 to edge PATIENT_HAS_MEDICATION values ($"CODE", $"PATIENT", $"START", $"STOP", $"BASE_COST", $"PAYER_COVERAGE", $"DISPENSES", $"TOTALCOST") USING HEADER="true";
-    load f1 to edge MEDICATION_REASON_CODE values ($"CODE", $"REASONCODE") USING HEADER="true";
-    load f1 to edge MEDICATION_CODE values ($"CODE", $"CODE") USING HEADER="true";
-    load f1 to edge ENCOUNTER_FOR_MEDICATION values ($"CODE", $"ENCOUNTER") using header="true";
+    load f1 to vertex Medication values ($5, $6) USING HEADER="true";
+    load f1 to vertex SnomedCode values ($5, $6) USING HEADER="true";
+    load f1 to vertex SnomedCode values ($11, $12) USING HEADER="true";
+    load f1 to edge MEDICATION_PAYER values ($5, $3) USING HEADER="true";
+    load f1 to edge PATIENT_HAS_MEDICATION values ($5, $2, $0, $1, $7, $8, $9, $10) USING HEADER="true";
+    load f1 to edge MEDICATION_REASON_CODE values ($5, $11) USING HEADER="true";
+    load f1 to edge MEDICATION_CODE values ($5, $5) USING HEADER="true";
+    load f1 to edge ENCOUNTER_FOR_MEDICATION values ($5, $4) using header="true";
 }

@@ -1,8 +1,8 @@
 drop job loadPayerTransitions
 
-create loading job loadPayerTransitions for graph synthea {
+create loading job loadPayerTransitions for graph MedGraph {
 
     define filename f1;
 
-    load f1 to edge PAYER_TRANSITION values ($"PAYER", $"PATIENT", $"START_YEAR", $"END_YEAR", $"OWNERSHIP") using header="true";
+    load f1 to edge PAYER_TRANSITION values ($3, $0, $1, $2, $4) using header="true";
 }

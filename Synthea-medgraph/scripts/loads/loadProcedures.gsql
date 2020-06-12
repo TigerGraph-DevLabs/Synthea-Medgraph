@@ -1,14 +1,14 @@
 drop job loadProcedures
 
-create loading job loadProcedures for graph synthea {
+create loading job loadProcedures for graph MedGraph {
 
     define filename f1;
 
-    load f1 to vertex Procedures values ($"CODE", $"DESCRIPTION") using header="true";
-    load f1 to vertex SnomedCode values ($"CODE", $"DESCRIPTION") using header="true";
-    load f1 to vertex SnomedCode values ($"REASONCODE", $"REASONDESCRIPTION") using header="true";
-    load f1 to edge PROCEDURE_CODE values ($"CODE", $"CODE") using header="true";
-    load f1 to edge PROCEDURE_REASON_CODE values ($"CODE", $"REASONCODE") using header="true";
-    load f1 to edge ENCOUNTER_FOR_PROCEDURE values ($"CODE", $"ENCOUNTER") using header="true";
-    load f1 to edge PATIENT_HAS_PROCEDURE values ($"CODE", $"PATIENT", $"BASE_COST", $"DATE") using header="true";
+    load f1 to vertex Procedures values ($3, $4) using header="true";
+    load f1 to vertex SnomedCode values ($3, $4) using header="true";
+    load f1 to vertex SnomedCode values ($6, $7) using header="true";
+    load f1 to edge PROCEDURE_CODE values ($3, $3) using header="true";
+    load f1 to edge PROCEDURE_REASON_CODE values ($3, $6) using header="true";
+    load f1 to edge ENCOUNTER_FOR_PROCEDURE values ($3, $2) using header="true";
+    load f1 to edge PATIENT_HAS_PROCEDURE values ($3, $1, $5, $0) using header="true";
 }

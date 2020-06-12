@@ -1,16 +1,16 @@
 drop job loadEncounters
 
-create loading job loadEncounters for graph synthea {
+create loading job loadEncounters for graph MedGraph {
 
     define filename f1;
 
-    load f1 to vertex Encounter values ($"Id", $"BASE_ENCOUNTER_COST", $"TOTAL_CLAIM_COST", $"PAYER_COVERAGE", $"ENCOUNTERCLASS") using header="true";
-    load f1 to edge ENCOUNTER_FOR_PATIENT values ($"Id", $"PATIENT", $"START", $"STOP") using header="true";
-    load f1 to edge ENCOUNTER_UNDER_ORGANIZATION values ($"Id", $"ORGANIZATION") using header="true";
-    Load f1 to edge ENCOUNTER_HAS_PAYER values ($"Id", $"PAYER") using header="true";
-    load f1 to edge ENCOUNTER_HAS_PROVIDER values ($"Id", $"PROVIDER") using header="true";
-    load f1 to edge ENCOUNTER_CODE values ($"Id", $"CODE") using header="true";
-    load f1 to edge ENCOUNTER_REASON_CODE values ($"Id", $"REASONCODE") using header="true";
-    load f1 to Vertex SnomedCode Values ($"CODE", $"DESCRIPTION") using header="true";
-    load f1 to Vertex SnomedCode values ($"REASONCODE", $"REASONDESCRIPTION") using header="true";
+    load f1 to vertex Encounter values ($0, $10, $11, $12, $7) using header="true";
+    load f1 to edge ENCOUNTER_FOR_PATIENT values ($0, $3, $1, $2) using header="true";
+    load f1 to edge ENCOUNTER_UNDER_ORGANIZATION values ($0, $4) using header="true";
+    Load f1 to edge ENCOUNTER_HAS_PAYER values ($0, $6) using header="true";
+    load f1 to edge ENCOUNTER_HAS_PROVIDER values ($0, $5) using header="true";
+    load f1 to edge ENCOUNTER_CODE values ($0, $8) using header="true";
+    load f1 to edge ENCOUNTER_REASON_CODE values ($0, $13) using header="true";
+    load f1 to Vertex SnomedCode Values ($8, $9) using header="true";
+    load f1 to Vertex SnomedCode values ($13, $14) using header="true";
 }

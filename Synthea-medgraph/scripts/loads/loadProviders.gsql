@@ -1,13 +1,17 @@
 drop job loadProviders
 
-create loading job loadProviders for graph synthea {
+create loading job loadProviders for graph MedGraph {
 
     define filename f1;
 
-    load f1 to vertex Providers values ($"Id", $"NAME", $"ADDRESS", $"LAT", $"LON", $"UTILIZATION", $"SPECIALITY") using header="true";
-    load f1 to edge PROVIDER_GENDER values ($"Id", $"GENDER") using header="true";
-    load f1 to edge PROVIDER_FROM_CITY values ($"Id", $"CITY") using header="true";
-    load f1 to edge PROVIDER_FROM_STATE values ($"Id", $"STATE") using header="true";
-    load f1 to edge PROVIDER_HAS_ZIPCODE values ($"Id", $"ZIP") using header="true";
-    load f1 to edge PROVIDER_HAS_ORGANIZATION values ($"Id", $"ORGANIZATION") using header="true";
+    load f1 to vertex Providers values ($0, $2, $11, $4) using header="true";
+    load f1 to edge PROVIDER_GENDER values ($0, $3) using header="true";
+    load f1 to vertex City values ($6) using header="true";
+    load f1 to vertex State values ($7) using header="true";
+    load f1 to vertex ZipCode values ($8) using header="true";
+    load f1 to vertex Address values ($5, gsql_concat($9, $10)) using header="true";
+    load f1 to edge ADDRESS_CITY values ($5, $6) using header="true";
+    load f1 to edge ADDRESS_STATE values ($5, $7) using header="true";
+    load f1 to edge ADDRESS_ZIPCODE values ($5, $8) using header="true";
+    load f1 to edge PROVIDER_HAS_ORGANIZATION values ($0, $1) using header="true";
     }

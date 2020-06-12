@@ -16,7 +16,7 @@
  }
 
  plugins {
-     id("com.optum.giraffle") version "1.3.3"
+     id("com.optum.giraffle") version "1.3.4"
      id("net.saliman.properties") version "1.5.1"
      id("io.github.http-builder-ng.http-plugin") version "0.1.1"
  }
@@ -69,7 +69,7 @@ tigergraph {
     gSecret?.let {
         authSecret.set(it)
     }
-
+    logDir.set(file("./logs"))
 }
 
 tasks {
@@ -98,91 +98,91 @@ tasks {
     }
 
     register<GsqlTask>("createLoadAllergies") {
-        scriptPath = "load/loadAllergies.gsql"
+        scriptPath = "loads/loadAllergies.gsql"
         group = loadingGroup
         description = "Creates loading job for loading allergies"
     }
 
     register<GsqlTask>("createLoadCareplans") {
-        scriptPath = "load/loadCareplans.gsql"
+        scriptPath = "loads/loadCareplans.gsql"
         group = loadingGroup
         description = "Creates loading job for loading careplans"
     }
 
     register<GsqlTask>("createLoadConditions") {
-        scriptPath = "load/loadConditions.gsql"
+        scriptPath = "loads/loadConditions.gsql"
         group = loadingGroup
         description = "Creates loading job for loading conditions"
     }
 
     register<GsqlTask>("createLoadDevices") {
-        scriptPath = "load/loadDevices.gsql"
+        scriptPath = "loads/loadDevices.gsql"
         group = loadingGroup
         description = "Creates loading job for loading devices"
     }
 
     register<GsqlTask>("createLoadEncounters") {
-        scriptPath = "load/loadEncounters.gsql"
+        scriptPath = "loads/loadEncounters.gsql"
         group = loadingGroup
         description = "Creates loading job for loading encounters"
     }
 
     register<GsqlTask>("createLoadImaging") {
-        scriptPath = "load/loadImaging.gsql"
+        scriptPath = "loads/loadImaging.gsql"
         group = loadingGroup
         description = "Creates loading job for loading imaging studies"
     }
 
     register<GsqlTask>("createLoadImmunizations") {
-        scriptPath = "load/loadImmunizations.gsql"
+        scriptPath = "loads/loadImmunizations.gsql"
         group = loadingGroup
         description = "Creates loading job for loading immunizations"
     }
 
     register<GsqlTask>("createLoadMedications") {
-        scriptPath = "load/loadMedications.gsql"
+        scriptPath = "loads/loadMedications.gsql"
         group = loadingGroup
         description = "Creates loading job for loading medications"
     }
 
     register<GsqlTask>("createLoadObservations") {
-        scriptPath = "load/loadObservations.gsql"
+        scriptPath = "loads/loadObservations.gsql"
         group = loadingGroup
         description = "Creates loading job for loading observations"
     }
 
     register<GsqlTask>("createLoadOrganizations") {
-        scriptPath = "load/loadOrganizations.gsql"
+        scriptPath = "loads/loadOrganizations.gsql"
         group = loadingGroup
         description = "Creates loading job for loading organizations"
     }
 
     register<GsqlTask>("createLoadPatients") {
-        scriptPath = "load/loadPatient.gsql"
+        scriptPath = "loads/loadPatient.gsql"
         group = loadingGroup
         description = "Creates loading job for loading patients"
     }
 
     register<GsqlTask>("createLoadPayers") {
-        scriptPath = "load/loadPayers.gsql"
+        scriptPath = "loads/loadPayers.gsql"
         group = loadingGroup
         description = "Creates loading job for loading payers"
     }
 
     register<GsqlTask>("createLoadProcedures") {
-        scriptPath = "load/loadProcedures.gsql"
+        scriptPath = "loads/loadProcedures.gsql"
         group = loadingGroup
         description = "Creates loading job for loading procedures"
     }
 
     register<GsqlTask>("createLoadProviders") {
-        scriptPath = "load/loadProviders.gsql"
+        scriptPath = "loads/loadProviders.gsql"
         group = loadingGroup
         description = "Creates loading job for loading providers"
     }
 
     register<GsqlTask>("createLoadPayerTransitions") {
-        scriptPath = "load/loadPayerTransitions.gsql"
+        scriptPath = "loads/loadPayerTransitions.gsql"
         group = loadingGroup
         description = "Creates loading job for loading payer transitions"
     }

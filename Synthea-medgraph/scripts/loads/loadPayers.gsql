@@ -1,11 +1,19 @@
 drop job loadPayers
 
-create loading job loadPayers for graph synthea {
+create loading job loadPayers for graph MedGraph {
 
     define filename f1;
 
-    load f1 to Vertex Payer values ($"Id", $"NAME", $"PHONE", $"ADDRESS", $"AMOUNT_COVERED", $"AMOUNT_UNCOVERED", $"REVENUE", $"COVERED_ENCOUNTERS", $"UNCOVERED_ENCOUNTERS", $"COVERED_MEDICATIONS", $"UNCOVERED_MEDICATIONS", $"COVERED_PROCEDURES", $"UNCOVERED_PROCEDURES", $"COVERED_IMMUNIZATIONS", $"UNCOVERED_IMMUNIZATIONS", $"UNIQUE_CUSTOMERS", $"QOLS_AVG", $"MEMBER_MONTHS") using header = "true";
-    load f1 to edge PAYER_STATE_HQ values ($"Id", $"STATE_HEADQUARTERED") using header = "true";
-    load f1 to edge PAYER_FROM_CITY values ($"Id", $"CITY") using header = "true";
-    load f1 to Vertex PAYER_HAS_ZIPCODE values ($"Id", $"ZIP") using header = "true";
+    load f1 to Vertex Payer values ($0, $1, $6, $7, $8, $9,
+                                    $10, $11, $12, $13,
+                                    $14, $15, $16, $17,
+                                    $18, $19, $20) using header = "true";
+    load f1 to vertex City values ($3) using header="true";
+    load f1 to vertex ZipCode values ($5) using header="true";
+    load f1 to vertex Address values ($2, $21) using header="true";
+    load f1 to vertex State values ($4) using header="true";
+    load f1 to edge PAYER_ADDRESS values ($0, $2) using header = "true";
+    load f1 to edge ADDRESS_STATE values ($2, $4) using header = "true";
+    load f1 to EDGE ADDRESS_CITY values ($2, $3) using header = "true";
+    load f1 to EDGE ADDRESS_ZIPCODE values ($2, $5) using header = "true";
 }
