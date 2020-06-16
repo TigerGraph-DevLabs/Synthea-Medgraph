@@ -5,23 +5,27 @@ create loading job loadPatient for graph MedGraph {
     define filename f1;
 
     load f1 to vertex Patient values ($0, $8, $7, $10, $1, $3, $4,
-                                      $5, $23, $24, $9, $6, $11, $15) USING header="true";
+                                      $5, $23, $24, $9, $6, $11, $15) USING header="true", separator=",";
 
-    LOAD f1 TO vertex Gender values ($14) USING header="true";
-    LOAD f1 TO vertex Race values ($12) USING header="true";
-    LOAD f1 TO vertex Ethnicity values ($13) USING header="true";
-    LOAD f1 TO vertex City values ($17) USING header="true";
-    LOAD f1 TO vertex State values ($19) USING header="true";
-    LOAD f1 TO vertex County values ($18) USING header="true";
-    LOAD f1 TO vertex ZipCode values ($20) USING header="true";
-    load f1 to vertex Address values ($16, gsql_concat($21, $22)) using header="true";
+    LOAD f1 TO vertex Gender values ($14) USING header="true", separator=",";
+    LOAD f1 TO vertex Race values ($12) USING header="true", separator=",";
+    LOAD f1 TO vertex Ethnicity values ($13) USING header="true", separator=",";
+    load f1 to vertex Address values (gsql_concat($21, $22), $16, $21, $22) using header="true", separator=",";
 
-    load f1 to edge PATIENT_GENDER values ($0, $14) USING header="true";
-    load f1 to edge PATIENT_RACE values ($0, $12) USING header="true";
-    load f1 to edge PATIENT_ETHNICITY values ($0, $13) USING header="true";
-    load f1 to edge PATIENT_ADDRESS values ($0, $16) USING header="true";
-    load f1 to edge ADDRESS_STATE values ($16, $19) USING header="true";
-    load f1 to edge ADDRESS_COUNTY values ($16, $18) USING header="true";
-    load f1 to edge ADDRESS_ZIPCODE values ($16, $20) USING header="true";
-    load f1 to edge ADDRESS_CITY values ($16, $17) USING header="true";
+    load f1 to edge PATIENT_GENDER values ($0, $14) USING header="true", separator=",";
+    load f1 to edge PATIENT_RACE values ($0, $12) USING header="true", separator=",";
+    load f1 to edge PATIENT_ETHNICITY values ($0, $13) USING header="true", separator=",";
+    load f1 to edge PATIENT_ADDRESS values ($0, $16) USING header="true", separator=",";
+    load f1 to edge ADDRESS_COUNTY values ($16, $19) USING header="true", separator=",";
+    load f1 to edge ADDRESS_ZIPCODE values ($16, $20) USING header="true", separator=",";
+    load f1 to edge ADDRESS_CITY values ($16, $17) USING header="true", separator=",";
+
+    LOAD f1 TO vertex County values ($19) USING header="true", separator=",";
+    LOAD f1 TO vertex ZipCode values ($20) USING header="true", separator=",";
+    LOAD f1 TO vertex City values ($17) USING header="true", separator=",";
+    # LOAD f1 TO vertex State values ($18) USING header="true", separator=",";
+
+    # load f1 to edge STATE_HAS_COUNTY values ($18, $19) using header="true", separator=",";
+    load f1 to edge COUNTY_HAS_CITY values ($19, $17) using header="true", separator=",";
+    load f1 to edge CITY_HAS_ZIPCODE values ($17, $20) using header="true", separator=",";
     }

@@ -97,6 +97,18 @@ tasks {
         description = "Drop entire schema"
     }
 
+    register<GsqlTask>("createLoadLocations"){
+        scriptPath = "loads/loadLocations.gsql"
+        group = loadingGroup
+        description = "Loads locations"
+    }
+
+    register<GsqlTask>("createLoadZips"){
+        scriptPath = "loads/loadZips.gsql"
+        group = loadingGroup
+        description = "Loads locations"
+    }
+
     register<GsqlTask>("createLoadAllergies") {
         scriptPath = "loads/loadAllergies.gsql"
         group = loadingGroup
@@ -187,6 +199,12 @@ tasks {
         description = "Creates loading job for loading payer transitions"
     }
 
+    register<GsqlTask>("createQueryCosinePatientDemographics") {
+        scriptPath = "query/cosine_patient_demographics.gsql"
+        group = queryGroup
+        description = "Creates qurey to perform cosine similarity on patient demographics"
+    }
+
     /* register<GsqlTask>("createLoadSymptoms") {
         scriptPath = "load/.gsql"
         group = loadingGroup
@@ -217,6 +235,44 @@ tasks {
             httpConfig.request.setBody(stream)
         }
     }
+
+    register<HttpTask>("loadLocations") {
+        group = loadingGroup
+        description = "Load data via the REST++ endpoint"
+        post { httpConfig ->
+            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
+            httpConfig.request.uri.setQuery(
+                mapOf(
+                    "tag" to "loadLocations",
+                    "filename" to "f1",
+                    "sep" to ",",
+                    "eol" to "\n"
+                )
+            )
+            httpConfig.request.setContentType("text/csv")
+            val stream = File("data/demographics copy.csv").inputStream()
+            httpConfig.request.setBody(stream)
+        }
+    }
+
+    /* register<HttpTask>("loadZips") {
+        group = loadingGroup
+        description = "Load data via the REST++ endpoint"
+        post { httpConfig ->
+            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
+            httpConfig.request.uri.setQuery(
+                mapOf(
+                    "tag" to "loadZips",
+                    "filename" to "f1",
+                    "sep" to ",",
+                    "eol" to "\n"
+                )
+            )
+            httpConfig.request.setContentType("text/csv")
+            val stream = File("data/zipcodes copy.csv").inputStream()
+            httpConfig.request.setBody(stream)
+        }
+    } */
 
     register<HttpTask>("loadAllergies") {
         group = loadingGroup
@@ -370,7 +426,7 @@ tasks {
         }
     }
 
-    register<HttpTask>("loadObservations") {
+    /* register<HttpTask>("loadObservations") {
         group = loadingGroup
         description = "Load data via the REST++ endpoint"
         post { httpConfig ->
@@ -387,7 +443,7 @@ tasks {
             val stream = File("data/observations copy.csv").inputStream()
             httpConfig.request.setBody(stream)
         }
-    }
+    } */
 
     register<HttpTask>("loadOrganizations") {
         group = loadingGroup

@@ -3,7 +3,7 @@ SET exit_on_error = FALSE
 CREATE VERTEX Gender(PRIMARY_ID gender_id STRING) WITH primary_id_as_attribute="true"
 CREATE VERTEX Race(PRIMARY_ID race_id STRING) WITH primary_id_as_attribute="true"
 CREATE VERTEX Ethnicity(PRIMARY_ID ethnicity_id STRING) WITH primary_id_as_attribute="true"
-CREATE VERTEX Address(PRIMARY_ID address_id STRING, latLon STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Address(PRIMARY_ID address_id STRING, name STRING, lat DOUBLE, lon DOUBLE) WITH primary_id_as_attribute="true"
 CREATE VERTEX City(PRIMARY_ID city_id STRING) WITH primary_id_as_attribute="true"
 CREATE VERTEX State(PRIMARY_ID state_id STRING) WITH primary_id_as_attribute="true"
 CREATE VERTEX County(PRIMARY_ID county_id STRING) WITH primary_id_as_attribute="true"
@@ -15,13 +15,15 @@ CREATE VERTEX ZipCode(PRIMARY_ID zip_id STRING) WITH primary_id_as_attribute="tr
 CREATE VERTEX SnomedCode(PRIMARY_ID snomed_code INT, description STRING) WITH primary_id_as_attribute="true"
 
 CREATE UNDIRECTED EDGE ADDRESS_CITY(From Address, To City)
-CREATE UNDIRECTED EDGE ADDRESS_STATE(From Address, To State)
 CREATE UNDIRECTED EDGE ADDRESS_COUNTY(From Address, To County)
 CREATE UNDIRECTED EDGE ADDRESS_ZIPCODE(From Address, To ZipCode)
+CREATE UNDIRECTEd edge STATE_HAS_COUNTY(From State, To County)
+CREATE UNDIRECTEd edge COUNTY_HAS_CITY(From County, To City)
+CREATE UNDIRECTEd edge CITY_HAS_ZIPCODE(From City, To ZipCode)
 
 CREATE VERTEX Patient(PRIMARY_ID patient_id STRING, lastName STRING, firstName STRING, maiden STRING,
-                      Birthday DATETIME, SSN STRING, License STRING, Passport STRING,
-                      HealthcareExpense DOUBLE, HealthcareCoverage DOUBLE, suffix STRING, prefix STRING, MaritalStatus STRING, birthplace STRING) WITH primary_id_as_attribute="true"
+                      birthday DATETIME, ssn STRING, license STRING, passport STRING,
+                      healthcareExpense DOUBLE, healthcareCoverage DOUBLE, suffix STRING, prefix STRING, maritalStatus STRING, birthplace STRING) WITH primary_id_as_attribute="true"
 CREATE UNDIRECTED EDGE PATIENT_GENDER(FROM Patient, TO Gender)
 CREATE UNDIRECTED EDGE PATIENT_ADDRESS(FROM Patient, To Address)
 CREATE UNDIRECTED EDGE PATIENT_RACE(FROM Patient, TO Race)
@@ -102,8 +104,8 @@ CREATE UNDIRECTED EDGE ENCOUNTER_HAS_PAYER(FROM Encounter, TO Payer)
 CREATE UNDIRECTED EDGE ENCOUNTER_CODE(FROM Encounter, TO SnomedCode)
 CREATE UNDIRECTED EDGE ENCOUNTER_REASON_CODE(FROM Encounter, TO SnomedCode)
 
-CREATE GRAPH MedGraph(Gender, Race, Ethnicity, Address, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTY, ADDRESS_ZIPCODE, City, State, County, ZipCode, SnomedCode, Patient, PATIENT_GENDER,
-                        PATIENT_ETHNICITY, PATIENT_ADDRESS, PATIENT_RACE, Allergies, PATIENT_HAS_ALLERGY, ENCOUNTER_FOR_ALLERGY,
+CREATE GRAPH MedGraph(Gender, Race, Ethnicity, Address, ADDRESS_CITY, ADDRESS_COUNTY, ADDRESS_ZIPCODE, City, State, County, ZipCode, STATE_HAS_COUNTY, SnomedCode, Patient, PATIENT_GENDER,
+                        COUNTY_HAS_CITY, CITY_HAS_ZIPCODE, PATIENT_ETHNICITY, PATIENT_ADDRESS, PATIENT_RACE, Allergies, PATIENT_HAS_ALLERGY, ENCOUNTER_FOR_ALLERGY,
                         ALLERGY_CODE, Device, PATIENT_HAS_DEVICE, ENCOUNTER_FOR_DEVICE, DEVICE_CODE, Medication, MEDICATION_PAYER, MEDICATION_REASON_CODE,
                         PATIENT_HAS_MEDICATION, ENCOUNTER_FOR_MEDICATION, MEDICATION_CODE, Procedures, PROCEDURE_CODE, PROCEDURE_REASON_CODE, PATIENT_HAS_PROCEDURE,
                         ENCOUNTER_FOR_PROCEDURE, Careplans, CAREPLAN_CODE, CAREPLAN_REASON_CODE, PATIENT_HAS_CAREPLAN, ENCOUNTER_FOR_CAREPLAN, Conditions,

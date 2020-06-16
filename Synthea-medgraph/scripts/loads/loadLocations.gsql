@@ -1,0 +1,13 @@
+drop job loadLocations
+
+create loading job loadLocations for graph MedGraph {
+
+    define filename f1;
+
+    load f1 to vertex State values ($3) using header="true";
+    # load f1 to vertex County values ($5) using header="true";
+    # load f1 to vertex City values ($2) using header="true";
+    load f1 to edge STATE_HAS_COUNTY values ($3, $5) using header="true";
+    # load f1 to edge COUNTY_HAS_CITY values ($5, $2) using header="true";
+
+    }
