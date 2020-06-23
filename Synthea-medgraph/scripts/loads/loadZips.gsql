@@ -1,9 +1,11 @@
 drop job loadZips
 
-create loading job loadZips for graph MedGraph {
+create loading job loadZips for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to vertex ZipCode values($4) using header="true";
-    load f1 to edge CITY_HAS_ZIPCODE values ($3, $4) using header="true";
-    }
+    load f1
+        to vertex ZipCode values($4),
+        to edge CITY_HAS_ZIPCODE values ($3, $4)
+        using header="true", separator=",";
+}

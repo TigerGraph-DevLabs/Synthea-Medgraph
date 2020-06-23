@@ -34,7 +34,7 @@
 
 val gAdminPassword: String by project
 val gAdminUserName: String by project
-val gCertPath: String? by project
+/* val gCertPath: String? by project */
 val gClientVersion: String? by project // <3>
 val gGraphName: String by project
 val gHost: String by project
@@ -58,14 +58,14 @@ tigergraph {
     scriptDir.set(file("scripts"))
     serverName.set(gHost)
     tokens.set(tokenMap)
-    uriScheme.set(UriScheme.HTTPS)
+    uriScheme.set(UriScheme.HTTP)
     userName.set(gUserName)
     gClientVersion?.let {
         gsqlClientVersion.set(it)
     }
-    gCertPath?.let {
+    /* gCertPath?.let {
         caCert.set(it)
-    }
+    } */
     gSecret?.let {
         authSecret.set(it)
     }
@@ -203,6 +203,12 @@ tasks {
         scriptPath = "query/cosine_patient_demographics.gsql"
         group = queryGroup
         description = "Creates qurey to perform cosine similarity on patient demographics"
+    }
+
+    register<GsqlTask>("createQueryselect_All_Patient") {
+        scriptPath = "query/select_All_Patient.gsql"
+        group = queryGroup
+        description = "Creates qurey to get info about patient"
     }
 
     /* register<GsqlTask>("createLoadSymptoms") {

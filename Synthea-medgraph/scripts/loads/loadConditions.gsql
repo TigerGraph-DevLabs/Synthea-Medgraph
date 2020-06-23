@@ -1,12 +1,14 @@
 drop job loadConditions
 
-Create loading job loadConditions for graph MedGraph {
+Create loading job loadConditions for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to vertex Conditions values ($4, $5) using header="true";
-    load f1 to vertex SnomedCode values ($4, $5) using header="true";
-    load f1 to edge CONDITION_CODE values ($4, $4) using header="true";
-    load f1 to edge PATIENT_HAS_CONDITION values ($4, $2, $0, $1) using header="true";
-    load f1 to EDGE ENCOUNTER_FOR_CONDITION values ($4, $3) using header="true";
+    load f1
+        to vertex Conditions values ($4, $5),
+        to vertex SnomedCode values ($4, $5),
+        to edge CONDITION_CODE values ($4, $4),
+        to edge PATIENT_HAS_CONDITION values ($4, $2, $0, $1),
+        to EDGE ENCOUNTER_FOR_CONDITION values ($4, $3)
+        using header="true", separator=",";
 }

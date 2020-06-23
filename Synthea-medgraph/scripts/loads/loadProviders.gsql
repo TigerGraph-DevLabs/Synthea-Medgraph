@@ -1,21 +1,17 @@
 drop job loadProviders
 
-create loading job loadProviders for graph MedGraph {
+create loading job loadProviders for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to vertex Providers values ($0, $2, $11, $4) using header="true", separator=",";
-    load f1 to edge PROVIDER_GENDER values ($0, $3) using header="true", separator=",";
-    load f1 to vertex Address values (gsql_concat($9, $10), $5, $9, $10) using header="true", separator=",";
-    load f1 to edge ADDRESS_CITY values ($5, $6) using header="true", separator=",";
-    load f1 to edge ADDRESS_ZIPCODE values ($5, $8) using header="true", separator=",";
-    load f1 to edge ADDRESS_COUNTY values ($5, $12) using header="true", separator=",";
-    load f1 to edge PROVIDER_HAS_ORGANIZATION values ($0, $1) using header="true", separator=",";
-
-    LOAD f1 TO vertex County values ($12) USING header="true", separator=",";
-    LOAD f1 TO vertex ZipCode values ($8) USING header="true", separator=",";
-    LOAD f1 TO vertex City values ($6) USING header="true", separator=",";
-
-    load f1 to edge COUNTY_HAS_CITY values ($12, $6) using header="true", separator=",";
-    load f1 to edge CITY_HAS_ZIPCODE values ($6, $8) using header="true", separator=",";
+    load f1
+        to vertex Providers values ($0, $2, $11, $4),
+        to vertex Address values (gsql_concat($9, $10), $5, $9, $10),
+        to edge PROVIDER_GENDER values ($0, $3),
+        to edge ADDRESS_CITY values ($5, $6),
+        to edge ADDRESS_ZIPCODE values ($5, $8),
+        to edge ADDRESS_COUNTY values ($5, $12),
+        to edge PROVIDER_HAS_ORGANIZATION values ($0, $1),
+        to edge PROVIDER_ADDRESS values ($0, gsql_concat($9, $10))
+        using header="true", separator=",";
     }

@@ -1,12 +1,14 @@
 drop job loadAllergies
 
-create loading job loadAllergies for graph MedGraph {
+create loading job loadAllergies for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to VERtex Allergies values ($4, $5) Using header="true";
-    load f1 to vertex SnomedCode values ($4, $5) Using header="true";
-    load f1 to edge PATIENT_HAS_ALLERGY values ($4, $2, $0, $1) using header="true";
-    load f1 to edge ALLERGY_CODE values ($4, $4) using header = "true";
-    load f1 to edge ENCOUNTER_FOR_ALLERGY values ($4, $3) using header = "true";
+    load f1
+        to VERtex Allergies values ($4, $5),
+        to vertex SnomedCode values ($4, $5),
+        to edge PATIENT_HAS_ALLERGY values ($4, $2, $0, $1),
+        to edge ALLERGY_CODE values ($4, $4),
+        to edge ENCOUNTER_FOR_ALLERGY values ($4, $3)
+        using header="true", separator=",";
     }

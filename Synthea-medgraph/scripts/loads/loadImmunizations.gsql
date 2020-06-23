@@ -1,13 +1,15 @@
 drop job loadImmunizations
 
-create loading job loadImmunizations for graph MedGraph {
+create loading job loadImmunizations for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to vertex Immunizations values ($3, $4) using header="true";
-    load f1 to vertex SnomedCode values ($3, $4) using header="true";
-    load f1 to edge IMMUNIZATION_CODE values ($3, $3) using header="true";
-    load f1 to edge PATIENT_HAS_IMMUNIZATION values ($3, $1, $0, $5) using header="true";
-    load f1 to edge ENCOUNTER_FOR_IMMUNIZATION values ($3, $2) using header="true";
+    load f1
+        to vertex Immunizations values ($3, $4),
+        to vertex SnomedCode values ($3, $4),
+        to edge IMMUNIZATION_CODE values ($3, $3),
+        to edge PATIENT_HAS_IMMUNIZATION values ($3, $1, $0, $5),
+        to edge ENCOUNTER_FOR_IMMUNIZATION values ($3, $2)
+        using header="true", separator=",";
 
 }

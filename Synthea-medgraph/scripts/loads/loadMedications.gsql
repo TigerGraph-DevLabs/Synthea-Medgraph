@@ -1,15 +1,17 @@
 drop job loadMedications
 
-create loading job loadMedications for graph MedGraph {
+create loading job loadMedications for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to vertex Medication values ($5, $6) USING HEADER="true";
-    load f1 to vertex SnomedCode values ($5, $6) USING HEADER="true";
-    load f1 to vertex SnomedCode values ($11, $12) USING HEADER="true";
-    load f1 to edge MEDICATION_PAYER values ($5, $3) USING HEADER="true";
-    load f1 to edge PATIENT_HAS_MEDICATION values ($5, $2, $0, $1, $7, $8, $9, $10) USING HEADER="true";
-    load f1 to edge MEDICATION_REASON_CODE values ($5, $11) USING HEADER="true";
-    load f1 to edge MEDICATION_CODE values ($5, $5) USING HEADER="true";
-    load f1 to edge ENCOUNTER_FOR_MEDICATION values ($5, $4) using header="true";
+    load f1
+        to vertex Medication values ($5, $6),
+        to vertex SnomedCode values ($5, $6),
+        to vertex SnomedCode values ($11, $12),
+        to edge MEDICATION_PAYER values ($5, $3),
+        to edge PATIENT_HAS_MEDICATION values ($5, $2, $0, $1, $7, $8, $9, $10),
+        to edge MEDICATION_REASON_CODE values ($5, $11),
+        to edge MEDICATION_CODE values ($5, $5),
+        to edge ENCOUNTER_FOR_MEDICATION values ($5, $4),
+        USING HEADER="true", separator=",";
 }

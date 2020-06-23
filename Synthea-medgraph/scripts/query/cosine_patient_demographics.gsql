@@ -1,7 +1,7 @@
 drop query cosine_patient_demographics
 
 # Computes the cosine similarity between a given vertex & every other vertex
-create query cosine_patient_demographics(STRING firstName, STRING lastName, INT topK) FOR GRAPH MedGraph returns (MapAccum<VERTEX, DOUBLE>) {
+create query cosine_patient_demographics(STRING firstName, STRING lastName, INT topK) FOR GRAPH @graphname@ returns (MapAccum<VERTEX, DOUBLE>) {
     MapAccum<VERTEX, DOUBLE> @@topk_result;
     SumAccum<DOUBLE> @latitude, @longitude, @distance, @similarity, @ageCount;
     SumAccum<INT> @age, @sexCount, @raceCount, @ethnicityCount;

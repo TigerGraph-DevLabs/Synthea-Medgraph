@@ -1,23 +1,15 @@
 drop job loadPayers
 
-create loading job loadPayers for graph MedGraph {
+create loading job loadPayers for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to Vertex Payer values ($0, $1, $6, $7, $8, $9,
-                                    $10, $11, $12, $13,
-                                    $14, $15, $16, $17,
-                                    $18, $19, $20) using header = "true", separator=",";
-    load f1 to vertex Address values (gsql_concat($21, $22), $2, $21, $22) using header="true", separator=",";
-    load f1 to edge PAYER_ADDRESS values ($0, $2) using header = "true", separator=",";
-    load f1 to EDGE ADDRESS_CITY values ($2, $3) using header = "true", separator=",";
-    load f1 to EDGE ADDRESS_ZIPCODE values ($2, $5) using header = "true", separator=",";
-    load f1 to edge ADDRESS_COUNTY values ($2, $23) using header="true", separator=",";
-
-    LOAD f1 TO vertex County values ($23) USING header="true", separator=",";
-    LOAD f1 TO vertex ZipCode values ($5) USING header="true", separator=",";
-    LOAD f1 TO vertex City values ($3) USING header="true", separator=",";
-
-    load f1 to edge COUNTY_HAS_CITY values ($23, $3) using header="true", separator=",";
-    load f1 to edge CITY_HAS_ZIPCODE values ($3, $5) using header="true", separator=",";
+    load f1
+        to Vertex Payer values ($0, $1, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20),
+        to vertex Address values (gsql_concat($21, $22), $2, $21, $22),
+        to edge PAYER_ADDRESS values ($0, gsql_concat($21, $22)),
+        to EDGE ADDRESS_CITY values ($2, $3),
+        to EDGE ADDRESS_ZIPCODE values ($2, $5),
+        to edge ADDRESS_COUNTY values ($2, $23)
+        using header = "true", separator=",";
 }
