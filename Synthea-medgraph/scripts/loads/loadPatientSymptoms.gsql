@@ -1,0 +1,12 @@
+drop job loadPatientSymptoms
+
+create loading job loadPatientSymptoms for graph @graphname@ {
+
+    define filename f1;
+
+    load f1
+        to vertex Symptoms values(gsql_concat($0, $4, $5, $8), $7, $8, $6, $4, $5),
+        to edge PATIENT_HAS_SYMPTOM values($0, gsql_concat($0, $4, $5, $8)),
+        to edge SYMPTOM_FOR_CONDITION values(gsql_concat($0, $4, $5, $8), $6)
+        using header="true", separator=",";
+}

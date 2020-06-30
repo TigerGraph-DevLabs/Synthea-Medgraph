@@ -7,9 +7,9 @@ create loading job loadOrganizations for graph @graphname@ {
     load f1
         to vertex Organizations values ($0, $1, $9, $10, $8),
         to vertex Address values (gsql_concat($6, $7), $2, $6, $7),
-        to edge ADDRESS_CITY values ($2, $3),
-        to EDGE ADDRESS_ZIPCODE values ($2, $5),
-        to edge ADDRESS_COUNTY values ($2, $11),
+        to edge ADDRESS_CITY values (gsql_concat($6, $7), $3),
+        to EDGE ADDRESS_ZIPCODE values (gsql_concat($6, $7), $5),
+        to edge ADDRESS_COUNTY values (gsql_concat($6, $7), $11),
         to edge ORGANIZATION_ADDRESS values ($0, gsql_concat($6, $7))
         using header="true", separator=",";
 

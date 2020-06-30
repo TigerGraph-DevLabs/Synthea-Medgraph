@@ -5,12 +5,12 @@ create loading job loadProcedures for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Procedures values ($3, $4),
+        to vertex Procedures values (gsql_concat($1, $2, $3), $3, $4, $5, $0),
         to vertex SnomedCode values ($3, $4),
         to vertex SnomedCode values ($6, $7),
-        to edge PROCEDURE_CODE values ($3, $3),
-        to edge PROCEDURE_REASON_CODE values ($3, $6),
-        to edge ENCOUNTER_FOR_PROCEDURE values ($3, $2),
-        to edge PATIENT_HAS_PROCEDURE values ($3, $1, $5, $0)
+        to edge PROCEDURE_CODE values (gsql_concat($1, $2, $3), $3),
+        to edge PROCEDURE_REASON_CODE values (gsql_concat($1, $2, $3), $6),
+        to edge ENCOUNTER_FOR_PROCEDURE values (gsql_concat($1, $2, $3), $2),
+        to edge PATIENT_HAS_PROCEDURE values (gsql_concat($1, $2, $3), $1)
         using header="true", separator=",";
 }

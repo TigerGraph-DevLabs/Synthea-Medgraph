@@ -34,7 +34,7 @@
 
 val gAdminPassword: String by project
 val gAdminUserName: String by project
-/* val gCertPath: String? by project */
+val gCertPath: String? by project
 val gClientVersion: String? by project // <3>
 val gGraphName: String by project
 val gHost: String by project
@@ -44,6 +44,9 @@ val gRestPort: String by project
 val gSecret: String? by project
 val gUserName: String by project
 
+/* val gsqlSysDataRoot: String by project */
+
+/* val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gGraphName, "sys_dataroot" to gsqlSysDataRoot) */
 val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gGraphName)
 
 val schemaGroup: String = "Schema"
@@ -63,9 +66,9 @@ tigergraph {
     gClientVersion?.let {
         gsqlClientVersion.set(it)
     }
-    /* gCertPath?.let {
+    gCertPath?.let {
         caCert.set(it)
-    } */
+    }
     gSecret?.let {
         authSecret.set(it)
     }
@@ -199,6 +202,18 @@ tasks {
         description = "Creates loading job for loading payer transitions"
     }
 
+    register<GsqlTask>("createLoadNotes") {
+        scriptPath = "loads/loadPatientNotes.gsql"
+        group = loadingGroup
+        description = "Creates loading job for loading patient notes"
+    }
+
+    register<GsqlTask>("createLoadSymptoms") {
+        scriptPath = "loads/loadPatientSymptoms.gsql"
+        group = loadingGroup
+        description = "Creates loading job for loading patient symptoms"
+    }
+
     register<GsqlTask>("createQueryCosinePatientDemographics") {
         scriptPath = "query/cosine_patient_demographics.gsql"
         group = queryGroup
@@ -210,18 +225,6 @@ tasks {
         group = queryGroup
         description = "Creates qurey to get info about patient"
     }
-
-    /* register<GsqlTask>("createLoadSymptoms") {
-        scriptPath = "load/.gsql"
-        group = loadingGroup
-        description = "Creates loading job for loading symptoms"
-    } */
-
-    /* register<GsqlTask>("createLoadNotes") {
-        scriptPath = "load/.gsql"
-        group = loadingGroup
-        description = "Creates loading job for loading notes"
-    } */
 
     register<HttpTask>("loadPatient") {
         group = loadingGroup
@@ -261,7 +264,7 @@ tasks {
         }
     }
 
-    /* register<HttpTask>("loadZips") {
+    register<HttpTask>("loadZips") {
         group = loadingGroup
         description = "Load data via the REST++ endpoint"
         post { httpConfig ->
@@ -278,7 +281,45 @@ tasks {
             val stream = File("data/zipcodes copy.csv").inputStream()
             httpConfig.request.setBody(stream)
         }
-    } */
+    }
+
+    register<HttpTask>("loadNotes") {
+        group = loadingGroup
+        description = "Load data via the REST++ endpoint"
+        post { httpConfig ->
+            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
+            httpConfig.request.uri.setQuery(
+                mapOf(
+                    "tag" to "loadNotes",
+                    "filename" to "f1",
+                    "sep" to ",",
+                    "eol" to "\n"
+                )
+            )
+            httpConfig.request.setContentType("text/csv")
+            val stream = File("data/Notes copy.csv").inputStream()
+            httpConfig.request.setBody(stream)
+        }
+    }
+
+    register<HttpTask>("loadSymptoms") {
+        group = loadingGroup
+        description = "Load data via the REST++ endpoint"
+        post { httpConfig ->
+            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
+            httpConfig.request.uri.setQuery(
+                mapOf(
+                    "tag" to "loadSymptoms",
+                    "filename" to "f1",
+                    "sep" to ",",
+                    "eol" to "\n"
+                )
+            )
+            httpConfig.request.setContentType("text/csv")
+            val stream = File("data/normalizedSymptoms copy.csv").inputStream()
+            httpConfig.request.setBody(stream)
+        }
+    }
 
     register<HttpTask>("loadAllergies") {
         group = loadingGroup
@@ -432,7 +473,7 @@ tasks {
         }
     }
 
-    /* register<HttpTask>("loadObservations") {
+    register<HttpTask>("loadObservations") {
         group = loadingGroup
         description = "Load data via the REST++ endpoint"
         post { httpConfig ->
@@ -449,7 +490,7 @@ tasks {
             val stream = File("data/observations copy.csv").inputStream()
             httpConfig.request.setBody(stream)
         }
-    } */
+    }
 
     register<HttpTask>("loadOrganizations") {
         group = loadingGroup
@@ -545,44 +586,6 @@ tasks {
             httpConfig.request.setBody(stream)
         }
     }
-
-    /* register<HttpTask>("loadSymptoms") {
-        group = loadingGroup
-        description = "Load data via the REST++ endpoint"
-        post { httpConfig ->
-            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
-            httpConfig.request.uri.setQuery(
-                mapOf(
-                    "tag" to "loadSymptoms",
-                    "filename" to "f1",
-                    "sep" to ",",
-                    "eol" to "\n"
-                )
-            )
-            httpConfig.request.setContentType("text/csv")
-            val stream = File("data/normalizedSymptoms copy.csv").inputStream()
-            httpConfig.request.setBody(stream)
-        }
-    } */
-
-    /* register<HttpTask>("loadNotes") {
-        group = loadingGroup
-        description = "Load data via the REST++ endpoint"
-        post { httpConfig ->
-            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
-            httpConfig.request.uri.setQuery(
-                mapOf(
-                    "tag" to "loadNotes",
-                    "filename" to "f1",
-                    "sep" to ",",
-                    "eol" to "\n"
-                )
-            )
-            httpConfig.request.setContentType("text/csv")
-            val stream = File("data/Notes copy.csv").inputStream()
-            httpConfig.request.setBody(stream)
-        }
-    } */
 
     val getToken by registering(GsqlTokenTask::class) {
         uriScheme.set(tigergraph.uriScheme.get())

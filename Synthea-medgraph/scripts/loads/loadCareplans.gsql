@@ -5,10 +5,10 @@ create loading job loadCareplans for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Careplans values ($0, $6),
+        to vertex Careplans values ($0, $6, $1, $2),
         to vertex SnomedCode values ($5, $6),
         to vertex SnomedCode values ($7, $8),
-        to edge PATIENT_HAS_CAREPLAN values ($0, $3, $1, $2),
+        to edge PATIENT_HAS_CAREPLAN values ($0, $3),
         to edge ENCOUNTER_FOR_CAREPLAN values ($0, $4),
         to edge CAREPLAN_CODE values ($0, $5),
         to edge CAREPLAN_REASON_CODE values ($0, $7)

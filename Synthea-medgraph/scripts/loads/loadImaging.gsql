@@ -5,9 +5,9 @@ create loading job loadImaging for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex ImagingStudies values ($0, $4, $5, $6, $7, $8, $9),
+        to vertex ImagingStudies values ($0, $4, $5, $6, $7, $8, $9, $1),
         to vertex SnomedCode values ($4, $5),
-        to edge PATIENT_HAS_IMAGING values ($0, $2, $1),
+        to edge PATIENT_HAS_IMAGING values ($0, $2),
         to edge ENCOUNTER_FOR_IMAGING values ($0, $3),
         to edge IMAGING_CODE values ($0, $4)
         using header="true", separator=",";

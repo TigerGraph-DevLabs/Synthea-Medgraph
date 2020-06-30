@@ -5,9 +5,9 @@ create loading job loadDevices for graph @graphname@ {
     define filename f1;
 
     load f1
-        to Vertex Device values ($6, $5),
+        to Vertex Device values ($6, $5, $0, $1),
         to Vertex SnomedCode values ($4, $5),
-        to EDGE PATIENT_HAS_DEVICE values ($6, $2, $0, $1),
+        to EDGE PATIENT_HAS_DEVICE values ($6, $2),
         to EDGE DEVICE_CODE values ($6, $4),
         to EDGE ENCOUNTER_FOR_DEVICE values ($6, $3)
         using header="true", separator=",";

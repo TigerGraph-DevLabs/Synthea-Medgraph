@@ -5,10 +5,10 @@ create loading job loadObservations for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Observations values($3, $4, $5, $6),
+        to vertex Observations values(gsql_concat($1, $2, $3), $0, $3, $4, $5, $6),
         to vertex SnomedCode values($3, $4),
-        to edge OBSERVATION_FOR_PATIENT values($3, $1, $0),
-        to edge ENCOUNTER_FOR_OBSERVATION values($3, $2),
-        to edge OBSERVATION_CODE values($3, $3)
+        to edge OBSERVATION_FOR_PATIENT values(gsql_concat($1, $2, $3), $1),
+        to edge ENCOUNTER_FOR_OBSERVATION values(gsql_concat($1, $2, $3), $2),
+        to edge OBSERVATION_CODE values(gsql_concat($1, $2, $3), $3)
         using header="true", separator=",";
 }
