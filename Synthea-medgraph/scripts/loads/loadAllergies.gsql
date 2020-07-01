@@ -5,10 +5,10 @@ create loading job loadAllergies for graph @graphname@ {
     define filename f1;
 
     load f1
-        to VERtex Allergies values (gsql_concat($0, $1, $2, $4), $4, $5, $0, $1),
-        to vertex SnomedCode values ($4, $5),
-        to edge PATIENT_HAS_ALLERGY values (gsql_concat($0, $1, $2, $4), $2),
-        to edge ALLERGY_CODE values (gsql_concat($0, $1, $2, $4), $4),
-        to edge ENCOUNTER_FOR_ALLERGY values (gsql_concat($0, $1, $2, $4), $3)
+        to VERtex _Allergies values ($0, $5, $6, $1, $2),
+        to vertex _SnomedCode values ($5, $6),
+        to edge _PATIENT_HAS_ALLERGY values ($0, $3),
+        to edge _ALLERGY_CODE values ($0, $5),
+        to edge _ENCOUNTER_FOR_ALLERGY values ($0, $4)
         using header="true", separator=",";
     }

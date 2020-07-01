@@ -5,11 +5,11 @@ create loading job loadImmunizations for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Immunizations values (gsql_concat($1, $2, $3), $3, $4, $0, $5),
-        to vertex SnomedCode values ($3, $4),
-        to edge IMMUNIZATION_CODE values (gsql_concat($1, $2, $3), $3),
-        to edge PATIENT_HAS_IMMUNIZATION values (gsql_concat($1, $2, $3), $1),
-        to edge ENCOUNTER_FOR_IMMUNIZATION values (gsql_concat($1, $2, $3), $2)
+        to vertex _Immunizations values ($0, $4, $5, $1, $6),
+        to vertex _SnomedCode values ($4, $5),
+        to edge _IMMUNIZATION_CODE values ($0, $4),
+        to edge _PATIENT_HAS_IMMUNIZATION values ($0, $2),
+        to edge _ENCOUNTER_FOR_IMMUNIZATION values ($0, $3)
         using header="true", separator=",";
 
 }

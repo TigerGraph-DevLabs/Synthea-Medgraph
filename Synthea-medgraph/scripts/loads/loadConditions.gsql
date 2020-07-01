@@ -5,10 +5,10 @@ Create loading job loadConditions for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Conditions values (gsql_concat($2, $3, $4), $4, $5, $0, $1),
-        to vertex SnomedCode values ($4, $5),
-        to edge CONDITION_CODE values (gsql_concat($2, $3, $4), $4),
-        to edge PATIENT_HAS_CONDITION values (gsql_concat($2, $3, $4), $2),
-        to EDGE ENCOUNTER_FOR_CONDITION values (gsql_concat($2, $3, $4), $3)
+        to vertex _Conditions values ($0, $5, $6, $1, $2),
+        to vertex _SnomedCode values ($5, $6),
+        to edge _CONDITION_CODE values ($0, $5),
+        to edge _PATIENT_HAS_CONDITION values ($0, $3),
+        to EDGE _ENCOUNTER_FOR_CONDITION values ($0, $4)
         using header="true", separator=",";
 }

@@ -5,14 +5,14 @@ create loading job loadEncounters for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Encounter values ($0, $10, $11, $12, $7, $1, $2),
-        to Vertex SnomedCode Values ($8, $9),
-        to Vertex SnomedCode values ($13, $14),
-        to edge ENCOUNTER_FOR_PATIENT values ($0, $3),
-        to edge ENCOUNTER_UNDER_ORGANIZATION values ($0, $4),
-        to edge ENCOUNTER_HAS_PAYER values ($0, $6),
-        to edge ENCOUNTER_HAS_PROVIDER values ($0, $5),
-        to edge ENCOUNTER_CODE values ($0, $8),
-        to edge ENCOUNTER_REASON_CODE values ($0, $13)
+        to vertex _Encounter values ($0, $10, $11, $12, $7, $1, $2),
+        to Vertex _SnomedCode Values ($8, $9),
+        to Vertex _SnomedCode values ($13, $14),
+        to edge _ENCOUNTER_FOR_PATIENT values ($0, $3),
+        to edge _ENCOUNTER_UNDER_ORGANIZATION values ($0, $4),
+        to edge _ENCOUNTER_HAS_PAYER values ($0, $6),
+        to edge _ENCOUNTER_HAS_PROVIDER values ($0, $5),
+        to edge _ENCOUNTER_CODE values ($0, $8),
+        to edge _ENCOUNTER_REASON_CODE values ($0, $13)
         using header="true", separator=",";
 }

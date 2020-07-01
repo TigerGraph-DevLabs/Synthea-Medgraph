@@ -87,6 +87,13 @@ tasks {
         description = "Show vertices & edges for graph"
     }
 
+    register<GsqlTask>("dropSynthea") {
+        scriptPath = "schema/dropSynthea.gsql"
+        useGlobal = true
+        group = schemaGroup
+        description = "Drop global variables"
+    }
+
     register<GsqlTask>("createSchema") {
         scriptPath = "schema/createSchema.gsql"
         useGlobal = true
@@ -283,14 +290,14 @@ tasks {
         }
     }
 
-    register<HttpTask>("loadNotes") {
+    register<HttpTask>("loadPatientNotes") {
         group = loadingGroup
         description = "Load data via the REST++ endpoint"
         post { httpConfig ->
             httpConfig.request.uri.setPath("/ddl/${gGraphName}")
             httpConfig.request.uri.setQuery(
                 mapOf(
-                    "tag" to "loadNotes",
+                    "tag" to "loadPatientNotes",
                     "filename" to "f1",
                     "sep" to ",",
                     "eol" to "\n"
@@ -302,14 +309,14 @@ tasks {
         }
     }
 
-    register<HttpTask>("loadSymptoms") {
+    register<HttpTask>("loadPatientSymptoms") {
         group = loadingGroup
         description = "Load data via the REST++ endpoint"
         post { httpConfig ->
             httpConfig.request.uri.setPath("/ddl/${gGraphName}")
             httpConfig.request.uri.setQuery(
                 mapOf(
-                    "tag" to "loadSymptoms",
+                    "tag" to "loadPatientSymptoms",
                     "filename" to "f1",
                     "sep" to ",",
                     "eol" to "\n"

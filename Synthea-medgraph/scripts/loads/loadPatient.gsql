@@ -5,17 +5,17 @@ create loading job loadPatient for graph @graphname@{
     define filename f1;
 
     load f1
-        to vertex Patient values ($0, $8, $7, $10, $1, $3, $4, $5, $23, $24, $9, $6, $11, $15),
-        TO vertex Gender values ($14),
-        TO vertex Race values ($12),
-        TO vertex Ethnicity values ($13),
-        to vertex Address values (gsql_concat($21, $22), $16, $21, $22),
-        to edge PATIENT_GENDER values ($0, $14),
-        to edge PATIENT_RACE values ($0, $12),
-        to edge PATIENT_ETHNICITY values ($0, $13),
-        to edge PATIENT_ADDRESS values ($0, gsql_concat($21, $22)),
-        to edge ADDRESS_COUNTY values (gsql_concat($21, $22), $19),
-        to edge ADDRESS_ZIPCODE values (gsql_concat($21, $22), $20),
-        to edge ADDRESS_CITY values (gsql_concat($21, $22), $17)
+        to vertex _Patient values ($0, $8, $7, $10, $1, $3, $4, $5, $23, $24, $9, $6, $11, $15),
+        TO vertex _Gender values ($14),
+        TO vertex _Race values ($12),
+        TO vertex _Ethnicity values ($13),
+        to vertex _Address values (gsql_concat($21, $22), $16, $21, $22),
+        to edge _PATIENT_GENDER values ($0, $14),
+        to edge _PATIENT_RACE values ($0, $12),
+        to edge _PATIENT_ETHNICITY values ($0, $13),
+        to edge _PATIENT_ADDRESS values ($0, gsql_concat($21, $22)),
+        to edge _ADDRESS_COUNTY values (gsql_concat($21, $22), $19),
+        to edge _ADDRESS_ZIPCODE values (gsql_concat($21, $22), $20),
+        to edge _ADDRESS_CITY values (gsql_concat($21, $22), $17)
         USING header="true", separator=",";
 }

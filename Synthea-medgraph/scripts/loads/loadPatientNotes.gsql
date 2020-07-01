@@ -5,7 +5,7 @@ create loading job loadPatientNotes for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Notes values (gsql_concat($0, $1), $2, $3, $4, $5, $6, $7, $8, $1),
-        to edge PATIENT_NOTE values($0, gsql_concat($0, $1))
+        to vertex _Notes values ($0, $3, $4, $5, $6, $7, $8, $9, $2),
+        to edge _PATIENT_NOTE values($1, $0)
         using header="true", separator=",";
 }

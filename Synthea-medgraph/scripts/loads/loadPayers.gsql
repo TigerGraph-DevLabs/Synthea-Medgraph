@@ -5,11 +5,11 @@ create loading job loadPayers for graph @graphname@ {
     define filename f1;
 
     load f1
-        to Vertex Payer values ($0, $1, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20),
-        to vertex Address values (gsql_concat($21, $22), $2, $21, $22),
-        to edge PAYER_ADDRESS values ($0, gsql_concat($21, $22)),
-        to EDGE ADDRESS_CITY values (gsql_concat($21, $22), $3),
-        to EDGE ADDRESS_ZIPCODE values (gsql_concat($21, $22), $5),
-        to edge ADDRESS_COUNTY values (gsql_concat($21, $22), $23)
+        to Vertex _Payer values ($0, $1, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20),
+        to vertex _Address values (gsql_concat($21, $22), $2, $21, $22),
+        to edge _PAYER_ADDRESS values ($0, gsql_concat($21, $22)),
+        to EDGE _ADDRESS_CITY values (gsql_concat($21, $22), $3),
+        to EDGE _ADDRESS_ZIPCODE values (gsql_concat($21, $22), $5),
+        to edge _ADDRESS_COUNTY values (gsql_concat($21, $22), $23)
         using header = "true", separator=",";
 }

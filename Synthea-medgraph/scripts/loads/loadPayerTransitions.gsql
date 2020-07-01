@@ -4,5 +4,5 @@ create loading job loadPayerTransitions for graph @graphname@ {
 
     define filename f1;
 
-    load f1 to edge PAYER_TRANSITION values ($3, $0, $1, $2, $4) using header="true", separator=",";
+    load f1 to edge _PAYER_TRANSITION values ($3, $0, $1, $2, $4) using header="true", separator=",";
 }

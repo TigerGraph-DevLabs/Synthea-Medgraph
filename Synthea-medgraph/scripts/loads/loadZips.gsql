@@ -5,7 +5,7 @@ create loading job loadZips for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex ZipCode values($4),
-        to edge CITY_HAS_ZIPCODE values ($3, $4)
+        to vertex _ZipCode values($4),
+        to edge _CITY_HAS_ZIPCODE values ($3, $4)
         using header="true", separator=",";
 }

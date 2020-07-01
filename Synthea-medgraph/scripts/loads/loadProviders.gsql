@@ -5,13 +5,13 @@ create loading job loadProviders for graph @graphname@ {
     define filename f1;
 
     load f1
-        to vertex Providers values ($0, $2, $11, $4),
-        to vertex Address values (gsql_concat($9, $10), $5, $9, $10),
-        to edge PROVIDER_GENDER values ($0, $3),
-        to edge ADDRESS_CITY values (gsql_concat($9, $10), $6),
-        to edge ADDRESS_ZIPCODE values (gsql_concat($9, $10), $8),
-        to edge ADDRESS_COUNTY values (gsql_concat($9, $10), $12),
-        to edge PROVIDER_HAS_ORGANIZATION values ($0, $1),
-        to edge PROVIDER_ADDRESS values ($0, gsql_concat($9, $10))
+        to vertex _Providers values ($0, $2, $11, $4),
+        to vertex _Address values (gsql_concat($9, $10), $5, $9, $10),
+        to edge _PROVIDER_GENDER values ($0, $3),
+        to edge _ADDRESS_CITY values (gsql_concat($9, $10), $6),
+        to edge _ADDRESS_ZIPCODE values (gsql_concat($9, $10), $8),
+        to edge _ADDRESS_COUNTY values (gsql_concat($9, $10), $12),
+        to edge _PROVIDER_HAS_ORGANIZATION values ($0, $1),
+        to edge _PROVIDER_ADDRESS values ($0, gsql_concat($9, $10))
         using header="true", separator=",";
     }
