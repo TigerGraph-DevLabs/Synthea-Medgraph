@@ -1,0 +1,48 @@
+CREATE QUERY GetProviderForProcedure(float lat, float lon, float distKm, vertex<_Procedures> procedure, int k) FOR GRAPH synthea {
+    /****************************************************************************************
+     * This query will find a provider for a specific procedure within a given distance     *
+     * Input a latitude and longitude point, along with a distance around that point,       *
+     *   procedure, and the number of results you would want to see.                        *
+     *                                                                                      *
+     * sample input:                                                                        *
+     *    lat : 37                                                                          *
+     *    long : -122                                                                       *
+     *    dist : 25000                                                                      *
+     *    procedure : 19490002                                                              *
+     *    k : 100                                                                           *
+     ****************************************************************************************/
+
+    SetAccum<string> @@vSet;
+    SetAccum<EDGE> @@edges;
+    MinAccum<float> @dist;
+    SumAccum<float> @latitude, @longitude;
+    MapAccum<int, SumAccum<int>> @@groupByDist;
+    MapAccum<string, SumAccum<int>> @@groupByFactFDR;
+    SumAccum<int> @cnt;
+    SumAccum<float> @percentage;
+    # @@vSet += getNearbyGridId(distKm, lat, lon);
+    grids = to_vertex_set(@@vSet, "GeoGrid");
+
+	  start = {procedure};
+
+	  encounters = select t
+	               from start:s-(_ENCOUNTER_FOR_PROCEDURE:e)->_Encounter:t;
+
+	  providers = select t
+	              from encounters:s-(_ENCOUNTER_HAS_PROVIDER:e)->_Providers:t
+	              limit k;
+
+	  /*
+    prov_in_dist = select t
+                from providers:s-(_PROVIDER_ADDRESS:e)-_Address:t
+                where geoDistance(lat, lon, t.lat, t.lon) <= distKm
+                accum t.@dist += geoDistance(lat, lon, t.lat, t.lon),
+                      t.@latitude = t.lat, t.@longitude = t.lon
+                order by s.@dist asc, s.@percentage desc, s.@cnt desc
+                limit k;
+    */
+
+    print providers;
+
+
+}

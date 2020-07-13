@@ -6,7 +6,7 @@ create query cosine_patient_demographics(STRING firstName, STRING lastName, INT 
     SumAccum<DOUBLE> @latitude, @longitude, @distance, @similarity, @ageCount;
     SumAccum<INT> @age, @sexCount, @raceCount, @ethnicityCount;
     SumAccum<STRING> @sex, @race, @ethnicity;
-    MaxAccum<DOUBLE> @@maxDistance = 10;
+    MaxAccum<DOUBLE> @@maxDistance = 0;
     string patientSex, patientRace, patientEthnicity, patientID;
     int patientAge;
     DOUBLe patientLat, patientLon, dLat, dLon, a, c, d;
@@ -14,10 +14,10 @@ create query cosine_patient_demographics(STRING firstName, STRING lastName, INT 
     # Possibly include these factors as well
     # SumAccum<INT> @healthcareExpense, @healthcareCoverage, @maritulstatus
 
-    SOURCE = {Patient.*};
+    SOURCE = {_Patient.*};
 
     patients = select s
-              from SOURCE:s - (PATIENT_GENDER:e) - :t
+              from SOURCE:s - (_PATIENT_GENDER:e) - :t
               WHERE s.lastName == lastName and s.firstName == firstName
               ACCUM s.@sex = t.gender_id,
                     patientSex = t.gender_id,
@@ -25,16 +25,16 @@ create query cosine_patient_demographics(STRING firstName, STRING lastName, INT 
                     patientAge = year(now()) - year(s.birthday),
                     patientID = s.patient_id;
     patients = select s
-                from patients:s - (PATIENT_RACE:e) - :t
+                from patients:s - (_PATIENT_RACE:e) - :t
                 ACCUM s.@race = t.race_id,
                       patientRace = t.race_id;
     patients = select s
-                from patients:s - (PATIENT_ETHNICITY:e) - :t
+                from patients:s - (_PATIENT_ETHNICITY:e) - :t
                 ACCUM s.@ethnicity = t.ethnicity_id,
                       patientEthnicity = t.ethnicity_id;
 
     patients = select s
-                from patients:s - (PATIENT_ADDRESS:e) - Address:t
+                from patients:s - (_PATIENT_ADDRESS:e) - _Address:t
                 ACCUM s.@latitude = t.lat,
                       s.@longitude = t.lon,
                       patientLat = t.lat,
@@ -43,7 +43,7 @@ create query cosine_patient_demographics(STRING firstName, STRING lastName, INT 
     print patients[patients.lastName, patients.firstName, patients.patient_id, patients.@sex, patients.@age, patients.@race, patients.@ethnicity, patients.@latitude, patients.@longitude];
 
     subjects = select s
-               from SOURCE:s - (PATIENT_GENDER:e) - :t
+               from SOURCE:s - (_PATIENT_GENDER:e) - :t
                WHERE s.patient_id != patientID
                ACCUM s.@age = year(now()) - year(s.birthday),
                     IF t.gender_id == patientSex THEN s.@sexCount = 1
@@ -52,19 +52,19 @@ create query cosine_patient_demographics(STRING firstName, STRING lastName, INT 
                 POST-ACCUM IF s.@age > patientAge THEN s.@ageCount = patientAge / s.@age
                             ELSE s.@ageCount = s.@age/ patientAge END;
     subjects = select s
-                from subjects:s - (PATIENT_RACE:e) - :t
+                from subjects:s - (_PATIENT_RACE:e) - :t
                 ACCUM if t.race_id == patientRace then s.@raceCount = 1
                 else s.@raceCount = 0
                 end;
 
     subjects = select s
-                from subjects:s - (PATIENT_ETHNICITY:e) - :t
+                from subjects:s - (_PATIENT_ETHNICITY:e) - :t
                 ACCUM If t.ethnicity_id == patientEthnicity then s.@ethnicityCount = 1
                 else s.@ethnicityCount = 0
                 end;
 
     subjects = select s
-               from subjects:s - (PATIENT_ADDRESS:e) - :t
+               from subjects:s - (_PATIENT_ADDRESS:e) - :t
                ACCUM dLat = (t.lat - patientLat) / 57.29577951,
                      dLon = (t.lon - patientLon) / 57.29577951,
                      a = (sin(dLat/2) * sin(dLat/2)) + (cos(patientLat / 57.29577951) * cos(patientLon / 57.29577951) * sin(dLon/2) * sin(dLon/2)),

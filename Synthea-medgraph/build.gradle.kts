@@ -16,10 +16,14 @@
  }
 
  plugins {
-     id("com.optum.giraffle") version "1.3.4"
+     id("com.optum.giraffle") version "1.3.4.1"
      id("net.saliman.properties") version "1.5.1"
      id("io.github.http-builder-ng.http-plugin") version "0.1.1"
  }
+
+ dependencies {
+    gsqlRuntime("com.tigergraph.client:gsql_client:3.0.0")
+}
 
  repositories {
      jcenter()
@@ -34,7 +38,7 @@
 
 val gAdminPassword: String by project
 val gAdminUserName: String by project
-val gCertPath: String? by project
+/* val gCertPath: String? by project */
 val gClientVersion: String? by project // <3>
 val gGraphName: String by project
 val gHost: String by project
@@ -66,9 +70,9 @@ tigergraph {
     gClientVersion?.let {
         gsqlClientVersion.set(it)
     }
-    gCertPath?.let {
+    /* gCertPath?.let {
         caCert.set(it)
-    }
+    } */
     gSecret?.let {
         authSecret.set(it)
     }
@@ -185,6 +189,12 @@ tasks {
         description = "Creates loading job for loading patients"
     }
 
+    register<GsqlTask>("createLoadAttributes") {
+        scriptPath = "loads/loadAttributes.gsql"
+        group = loadingGroup
+        description = "Creates loading job for loading patient attributes"
+    }
+
     register<GsqlTask>("createLoadPayers") {
         scriptPath = "loads/loadPayers.gsql"
         group = loadingGroup
@@ -286,6 +296,25 @@ tasks {
             )
             httpConfig.request.setContentType("text/csv")
             val stream = File("data/zipcodes copy.csv").inputStream()
+            httpConfig.request.setBody(stream)
+        }
+    }
+
+    register<HttpTask>("loadAttributes") {
+        group = loadingGroup
+        description = "Load data via the REST++ endpoint"
+        post { httpConfig ->
+            httpConfig.request.uri.setPath("/ddl/${gGraphName}")
+            httpConfig.request.uri.setQuery(
+                mapOf(
+                    "tag" to "loadAttributes",
+                    "filename" to "f1",
+                    "sep" to ",",
+                    "eol" to "\n"
+                )
+            )
+            httpConfig.request.setContentType("text/csv")
+            val stream = File("data/Notes tokenized copy.csv").inputStream()
             httpConfig.request.setBody(stream)
         }
     }

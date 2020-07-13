@@ -1,0 +1,11 @@
+drop job loadAttributes
+
+create loading job loadAttributes for graph @graphname@ {
+
+    define filename f1;
+
+    load f1
+        to vertex _Attribute values($1, $2),
+        to eDGe _PATIENT_HAS_ATTRIBUTE values($0, $1)
+        using header="true", separator=",";
+}
