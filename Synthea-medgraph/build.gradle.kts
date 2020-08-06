@@ -21,9 +21,9 @@
      id("io.github.http-builder-ng.http-plugin") version "0.1.1"
  }
 
- dependencies {
+ /* dependencies {
     gsqlRuntime("com.tigergraph.client:gsql_client:3.0.0")
-}
+} */
 
  repositories {
      jcenter()
@@ -38,7 +38,7 @@
 
 val gAdminPassword: String by project
 val gAdminUserName: String by project
-/* val gCertPath: String? by project */
+val gCertPath: String? by project
 val gClientVersion: String? by project // <3>
 val gGraphName: String by project
 val gHost: String by project
@@ -65,14 +65,14 @@ tigergraph {
     scriptDir.set(file("scripts"))
     serverName.set(gHost)
     tokens.set(tokenMap)
-    uriScheme.set(UriScheme.HTTP)
+    uriScheme.set(UriScheme.HTTPS)
     userName.set(gUserName)
     gClientVersion?.let {
         gsqlClientVersion.set(it)
     }
-    /* gCertPath?.let {
+    gCertPath?.let {
         caCert.set(it)
-    } */
+    }
     gSecret?.let {
         authSecret.set(it)
     }

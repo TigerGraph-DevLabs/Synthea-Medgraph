@@ -8,7 +8,7 @@ CREATE VERTEX _Ethnicity(PRIMARY_ID ethnicity_id STRING) WITH primary_id_as_attr
 
 CREATE VERTEX _Address(PRIMARY_ID address_id STRING, name STRING, lat DOUBLE, lon DOUBLE) WITH primary_id_as_attribute="true"
 
-CREATE VERTEX _City(PRIMARY_ID city_id INT, cityName STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX _City(PRIMARY_ID city_id STRING, cityName STRING) WITH primary_id_as_attribute="true"
 
 CREATE VERTEX _State(PRIMARY_ID state_id STRING) WITH primary_id_as_attribute="true"
 
