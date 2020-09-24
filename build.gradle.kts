@@ -216,11 +216,11 @@ tasks {
         description = "Creates loading job for loading payer transitions"
     }
 
-    register<GsqlTask>("createLoadNotes") {
+    /* register<GsqlTask>("createLoadNotes") {
         scriptPath = "loads/loadPatientNotes.gsql"
         group = loadingGroup
         description = "Creates loading job for loading patient notes"
-    }
+    } */
 
     register<GsqlTask>("createLoadSymptoms") {
         scriptPath = "loads/loadPatientSymptoms.gsql"
@@ -316,7 +316,7 @@ tasks {
         }
     }
 
-    register<HttpTask>("loadPatientNotes") {
+    /* register<HttpTask>("loadPatientNotes") {
         group = loadingGroup
         description = "Load data via the REST++ endpoint"
         post { httpConfig ->
@@ -333,7 +333,7 @@ tasks {
             val stream = File("data/Notes copy.csv").inputStream()
             httpConfig.request.setBody(stream)
         }
-    }
+    } */
 
     register<HttpTask>("loadPatientSymptoms") {
         group = loadingGroup
