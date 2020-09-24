@@ -1,16 +1,17 @@
 drop query select_All_Patient
 
 create query select_All_Patient (STRING firstName, STRING lastName) for graph @graphname@ {
+    /* Sample: firstName = Antony, lastName = Hudson */
 
     ListAccum<EDGE> @@edgelist;
-    Seed = {Patient.*};
+    Seed = {_Patient.*};
 
     patient = select s
                 FROM Seed:s -() -:t
                 where s.lastName == lastName and s.firstName == firstName;
 
     response = select c
-                from Seed:s -(PATIENT_HAS_CONDITION:e) -Conditions:c
+                from Seed:s -(_PATIENT_HAS_CONDITION:e) -_Conditions:c
                 where s.lastName == lastName and s.firstName == firstName
                 ACCUM @@edgelist+=e;
 
