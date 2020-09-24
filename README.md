@@ -21,7 +21,7 @@ This is a graph based on [Synthea](https://synthetichealth.github.io/synthea/), 
 5. Run `gradle tasks` (You should see **Build Successful**)
 6. Type `openssl s_client -connect hostname.i.tgcloud.io:14240 < /dev/null 2> /dev/null | openssl x509 -text > cert.txt`, replacing "hostname" with the name of your TG cloud server
 6. Run `gradle createSchema`
-7. Go to your TigerGraph solution, and under Admin click Create Secret
+7. Go to your TigerGraph solution, and under Admin -> User Management click Create Secret
 8. Add the secret to the gradle.properties file
 9. Next run `gradle allCreateLoad`
 10. Finally run `gradle allLoad`
