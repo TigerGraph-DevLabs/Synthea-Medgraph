@@ -21,9 +21,9 @@
      id("io.github.http-builder-ng.http-plugin") version "0.1.1"
  }
 
- /* dependencies {
-    gsqlRuntime("com.tigergraph.client:gsql_client:3.0.0")
-} */
+ dependencies {
+    gsqlRuntime("com.tigergraph.client:gsql_client:3.0.5")
+}
 
  repositories {
      jcenter()
@@ -48,9 +48,6 @@ val gRestPort: String by project
 val gSecret: String? by project
 val gUserName: String by project
 
-/* val gsqlSysDataRoot: String by project */
-
-/* val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gGraphName, "sys_dataroot" to gsqlSysDataRoot) */
 val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gGraphName)
 
 val schemaGroup: String = "Schema"
