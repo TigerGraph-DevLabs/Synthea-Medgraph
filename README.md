@@ -1,7 +1,7 @@
 # Getting Started
 This is a graph based on [Synthea](https://synthetichealth.github.io/synthea/), a synthetic healthcare data generator. To get started, please review the prerequisites, installation for TG Cloud (if needed), and the Synthea Graph installation instructions. 
 
-!> [For Docker Instructions](#docker)
+> NOTE: [For Docker Instructions](#docker)
 
 ## Prerequisites
 * git
@@ -30,6 +30,9 @@ This is a graph based on [Synthea](https://synthetichealth.github.io/synthea/), 
 
 
 ## Docker
-Please refer to [this blog: dockerized-synthetic-healthcare-graph](https://dev.to/herk/dockerized-synthetic-healthcare-graph-4m59) for full walk-through.
+Please refer to [dockerized-synthetic-healthcare-graph](https://dev.to/herk/dockerized-synthetic-healthcare-graph-4m59) for full walk-through.
 
-Developed by [Akash Kaul](https://www.linkedin.com/in/akash-kaul-6a8063194/)
+### Contributors
+* Demo developed by [Akash Kaul](https://www.linkedin.com/in/akash-kaul-6a8063194/)
+* Docker developed by [Bruno Simic](https://www.linkedin.com/in/brunosimic/)
+* Maintained by [Jon Herke](https://www.linkedin.com/in/jonherke/)
