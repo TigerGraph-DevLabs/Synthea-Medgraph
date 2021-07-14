@@ -16,18 +16,25 @@
  }
 
  plugins {
-     id("com.optum.giraffle") version "1.3.4.1"
+     id("com.optum.giraffle") version "1.3.5"
      id("net.saliman.properties") version "1.5.1"
      id("io.github.http-builder-ng.http-plugin") version "0.1.1"
  }
 
- dependencies {
-    gsqlRuntime("com.tigergraph.client:gsql_client:3.0.5")
+dependencies {
+    gsqlRuntime("com.tigergraph.client:gsql_client:3.1.2")
 }
 
- repositories {
-     jcenter()
- }
+repositories {
+    mavenCentral()
+    maven {
+       url = uri("https://maven.pkg.github.com/tigergraph/gsql_client")
+       credentials {
+          username=project.findProperty("gpr.user") as String
+          password=project.findProperty("gpr.key") as String
+       }
+    }
+}
 
  http {
      config {
